@@ -8,7 +8,18 @@ import config
 class BasePage:
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, config.DEFAULT_TIMEOUT)
+        self.base_url = "https://telranedu.web.app/"
+        # Безопасно инициализируем wait (если в config нет DEFAULT_TIMEOUT, поставим 10 по умолчанию)
+        timeout = getattr(config, "DEFAULT_TIMEOUT", 10)
+        self.wait = WebDriverWait(driver, timeout)
+
+    def open_main(self):
+        """Открываем главную страницу приложения"""
+        self.driver.get(self.base_url)
+
+    def login(self, email, password):
+        # клик по кнопке логина, ввод данных...
+        pass
 
     def take_screenshot(self, file_name: str):
         """Создает папку screenshots/ и сохраняет скриншот по имени файла."""

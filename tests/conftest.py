@@ -1,4 +1,5 @@
 import datetime
+import uuid
 
 import pytest
 from selenium import webdriver
@@ -7,6 +8,8 @@ from selenium.webdriver.chrome.options import Options
 from config import VALID_EMAIL, VALID_PASSWORD
 from pages.login_page import LoginPage
 from pages.registration_page import RegistrationPage
+from utils.api_client import ApiClient
+from utils.data_generator import DataGenerator
 
 
 def pytest_addoption(parser):
@@ -85,3 +88,58 @@ def pytest_runtest_makereport(item, call):
                 print(f"\nСкриншот при падении сохранен: {screenshot_path}")
             except Exception as e:
                 print(f"\nНе удалось сделать скриншот: {e}")
+
+# @pytest.fixture
+# def registered_user_via_api():
+#   api = ApiClient()
+#   user = DataGenerator.generate_user()
+#
+#   response = api.register_user(user.email, user.password)
+#   print(f"[API RESPONSE STATUS]: {response.status_code}, BODY: {response.text}")
+#
+#   # Добавили flush=True
+#   print(f"\n[DEBUG API] Status Code: {response.status_code}", flush=True)
+#   print(f"[DEBUG API] Response text: {response.text}", flush=True)
+#   print(
+#       f"[DEBUG API] Email: {user.email} | Password: {user.password}",
+#       flush=True,
+#   )
+#
+#   assert response.status_code in [
+#       200,
+#       201,
+#   ], f"API Registration failed: {response.status_code} - {response.text}"
+#
+#   return user
+
+import uuid
+from types import SimpleNamespace
+
+
+@pytest.fixture
+def registered_user_via_api():
+  api = ApiClient()
+
+  # Используем встроенный uuid для генерации уникального хвоста почты
+  unique_id = uuid.uuid4().hex[:6]
+  email = f"test_user_{unique_id}@example.com"
+  password = "Password123!"
+
+  response = api.register_user(email, password)
+
+  user = SimpleNamespace(email=email, password=password)
+
+  print(f"[API RESPONSE STATUS]: {response.status_code}, BODY: {response.text}")
+  print(f"\n[DEBUG API] Status Code: {response.status_code}", flush=True)
+  print(f"[DEBUG API] Response text: {response.text}", flush=True)
+  print(
+      f"[DEBUG API] Email: {user.email} | Password: {user.password}",
+      flush=True,
+  )
+
+  assert response.status_code in [
+      200,
+      201,
+  ], f"API Registration failed: {response.status_code} - {response.text}"
+
+  return user

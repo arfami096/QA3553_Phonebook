@@ -17,14 +17,20 @@ class LoginPage(BasePage):
 
     BASE_URL = "https://telranedu.web.app/"
 
+    # def open_login_form(self):
+    #     self.driver.get(self.BASE_URL)
+    #     try:
+    #         WebDriverWait(self.driver, 5).until(
+    #             EC.element_to_be_clickable(self.LOGIN_NAV_LINK)
+    #         ).click()
+    #     except TimeoutException:
+    #         pass
+
     def open_login_form(self):
         self.driver.get(self.BASE_URL)
-        try:
-            WebDriverWait(self.driver, 5).until(
-                EC.element_to_be_clickable(self.LOGIN_NAV_LINK)
-            ).click()
-        except TimeoutException:
-            pass
+        # Кликаем напрямую. Если элемента нет — тест упадет честно с TimeoutException
+        self.click(self.LOGIN_NAV_LINK)
+
 
     def fill_email(self, email: str):
         self.fill(self.EMAIL_INPUT, email)
@@ -33,11 +39,21 @@ class LoginPage(BasePage):
         self.fill(self.PASSWORD_INPUT, password)
 
     def fill_login_form(self, email: str, password: str):
-        self.fill_email(email)
-        self.fill_password(password)
+        # Принудительный вывод с flush=True, чтобы pytest не прятал текст
+        print(
+            f"\n[UI DEBUG] Email: {email} | Password: {password}", flush=True
+        )
+        self.fill(self.EMAIL_INPUT, email)
+        self.fill(self.PASSWORD_INPUT, password)
 
     def submit_login(self):
         self.click(self.LOGIN_BTN)
+
+    def login(self, email, password):
+        """Комплексный метод для входа в систему"""
+        self.open_login_form()
+        self.fill_login_form(email, password)
+        self.submit_login()
 
     def submit_registration(self):
         self.click(self.REGISTRATION_BTN)
