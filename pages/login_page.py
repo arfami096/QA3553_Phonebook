@@ -1,4 +1,4 @@
-from selenium.common import TimeoutException
+from selenium.common import TimeoutException, NoAlertPresentException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -13,7 +13,7 @@ class LoginPage(BasePage):
     LOGIN_BTN = (By.XPATH, "//button[text()='Login']")
     REGISTRATION_BTN = (By.XPATH, "//button[text()='Registration']")
     SIGN_OUT_BTN = (By.XPATH, "//*[text()='Sign Out']")
-    ERROR_MESSAGE = (By.CSS_SELECTOR, ".error-message")
+    ERROR_MESSAGE = (By.XPATH, "//div[text()='Login Failed with code 401']")
 
     BASE_URL = "https://telranedu.web.app/"
 
@@ -45,8 +45,43 @@ class LoginPage(BasePage):
     def is_logged(self) -> bool:
         return self.is_element_visible(self.SIGN_OUT_BTN)
 
-    def get_error_message(self) -> str:
-        return self.driver.find_element(*self.ERROR_MESSAGE).text
+    def get_error_message(self, timeout=3) -> str:
+        """
+        Универсальный метод: проверяет появление системного алерта,
+        а если его нет — ищет элемент с ошибкой в DOM-дереве страницы.
+        """
+        # 1. Сначала проверяем, не появился ли системный alert
+        try:
+            alert = WebDriverWait(self.driver, 3).until(EC.alert_is_present())
+            alert_text = alert.text
+            alert.accept()  # Сразу закрываем алерт, чтобы не блокировал страницу
+
+            return alert_text
+        except (TimeoutException, NoAlertPresentException):
+            pass
+
+        # 2. Если алерта нет, ищем элемент ошибки в DOM по локатору self.ERROR_MESSAGE
+        try:
+            error_element = WebDriverWait(self.driver, timeout).until(
+                EC.visibility_of_element_located(self.ERROR_MESSAGE)
+            )
+            return error_element.text
+
+        except TimeoutException:
+            pass
+
+        # 3. На крайний случай проверяем, не записан ли текст ошибки прямо в атрибут value или innerHTML (если применимо)
+        try:
+            element = self.driver.find_element(*self.ERROR_MESSAGE)
+            text = element.text or element.get_attribute("value") or element.get_attribute("innerText")
+
+            if text:
+                return text
+        except Exception:
+            pass
+
+        raise AssertionError(
+            "Ошибка не найдена: ни системный alert, ни DOM-элемент ошибки (self.ERROR_MESSAGE) не обнаружены!")
 
     def get_alert_text(self) -> str:
         alert = self.wait.until(EC.alert_is_present())

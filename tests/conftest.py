@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.options import Options
 
 from config import VALID_EMAIL, VALID_PASSWORD
 from pages.login_page import LoginPage
+from pages.registration_page import RegistrationPage
 
 
 def pytest_addoption(parser):
@@ -42,3 +43,15 @@ def authenticated_driver(driver):
     login_page.fill_login_form(VALID_EMAIL, VALID_PASSWORD)
     login_page.submit_login()
     return driver
+
+@pytest.fixture
+def login_page(driver):
+    page = LoginPage(driver)
+    page.open_login_form()
+    return page
+
+@pytest.fixture
+def registration_page(driver):
+    page = RegistrationPage(driver)
+    page.open_registration_form()
+    return page

@@ -16,6 +16,7 @@ class RegistrationPage(BasePage):
 
     BASE_URL = "https://telranedu.web.app/"
 
+
     def open_registration_form(self):
         self.driver.get(self.BASE_URL)
         try:
