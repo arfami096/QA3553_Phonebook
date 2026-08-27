@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -55,3 +57,31 @@ def registration_page(driver):
     page = RegistrationPage(driver)
     page.open_registration_form()
     return page
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    # Получаем результат выполнения теста
+    outcome = yield
+    report = outcome.get_result()
+
+    # Проверяем, что тест упал именно на этапе выполнения (call)
+    if report.when == "call" and report.failed:
+        # Пытаемся достать фикстуру драйвера из теста
+        driver = item.funcargs.get("driver") or item.funcargs.get(
+            "authenticated_driver"
+        )
+
+        if driver:
+            # Генерируем уникальное имя файла с таймстампом
+            timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            screenshot_name = f"screenshot_{item.name}_{timestamp}.png"
+
+            # Путь, куда сохранится файл
+            screenshot_path = f"screenshots/{screenshot_name}"
+
+            try:
+                driver.save_screenshot(screenshot_path)
+                print(f"\nСкриншот при падении сохранен: {screenshot_path}")
+            except Exception as e:
+                print(f"\nНе удалось сделать скриншот: {e}")

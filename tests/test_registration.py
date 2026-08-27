@@ -4,22 +4,17 @@ from utils.data_generator import DataGenerator
 
 
 def test_registration_success(registration_page):
-    # Генерируем уникального пользователя
     user = DataGenerator.generate_user()
 
-    # Заполняем форму и отправляем
     registration_page.fill_registration_form(user.email, user.password)
     registration_page.submit_registration()
 
-    # Проверяем успешный вход и выходим из системы
     assert registration_page.is_logged() is True
     registration_page.logout()
 
 def test_registration_empty_fields(registration_page):
-    # Оставляем поля пустыми и сразу отправляем форму
     registration_page.submit_registration()
 
-    # Проверяем текст ошибки в алерте (или блокировку входа)
     alert_text = registration_page.get_alert_text_and_accept()
     assert "Wrong email or password format" in alert_text
 

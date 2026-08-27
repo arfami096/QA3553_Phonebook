@@ -7,15 +7,12 @@ def test_successful_login(login_page):
     # Заполняем форму данными из конфига (.env)
     login_page.fill_login_form(VALID_EMAIL, VALID_PASSWORD)
 
-    # Нажимаем кнопку входа
     login_page.submit_login()
-
-    # Проверяем, что пользователь успешно вошел в систему (появилась кнопка Sign Out)
     assert login_page.is_logged(), "Кнопка 'Sign Out' не найдена — авторизация не удалась"
+    # assert False, "Специально валим тест для проверки скриншота!"
 
 
 def test_login_empty_fields(login_page):
-    # Оставляем поля пустыми и сразу жмем submit
     login_page.submit_login()
 
     # Проверяем, что вход не произошел
