@@ -29,6 +29,9 @@ def driver(request):
 
     if request.config.getoption("--headless"):
         options.add_argument("--headless=new")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-gpu")
 
     browser = webdriver.Chrome(options=options)
     browser.set_page_load_timeout(10)
