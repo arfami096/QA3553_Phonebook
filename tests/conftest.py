@@ -9,6 +9,8 @@ from config import VALID_EMAIL, VALID_PASSWORD
 from pages.login_page import LoginPage
 from pages.registration_page import RegistrationPage
 from utils.api_client import ApiClient
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 
@@ -33,7 +35,10 @@ def driver(request):
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--disable-gpu")
 
-    browser = webdriver.Chrome(options=options)
+    # Используем webdriver-manager для автоматического сопоставления версий
+    service = Service(ChromeDriverManager().install())
+    browser = webdriver.Chrome(service=service, options=options)
+
     browser.set_page_load_timeout(10)
 
     yield browser
@@ -42,7 +47,6 @@ def driver(request):
         browser.quit()
     except Exception:
         pass
-
 @pytest.fixture
 def authenticated_driver(driver):
     """Фикстура, которая автоматически логинит пользователя перед тестом."""
