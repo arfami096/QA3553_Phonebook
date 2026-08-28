@@ -32,6 +32,20 @@ def test_add_contact_with_empty_description(authenticated_driver):
 
   assert "contacts" in authenticated_driver.current_url
 
+def test_add_contact_all_fields_empty(authenticated_driver):
+    add_page = AddPage(authenticated_driver)
+    add_page.open_contact_form()
+
+    try:
+        add_page.submit_contact()
+    except Exception:
+        # Если кнопка заблокирована и клик вызвал исключение — это ожидаемо
+        pass
+
+    assert "/add" in authenticated_driver.current_url, (
+        "Ошибка: полностью пустая форма позволила себя отправить!"
+      )
+
 @pytest.mark.parametrize(
     "field_name, invalid_value, expected_behavior, expected_alert",
     [
@@ -42,8 +56,16 @@ def test_add_contact_with_empty_description(authenticated_driver):
         ("email", "", "stay_on_page", None),
         ("address", "", "stay_on_page", None),
         # Некорректные форматы (ожидаем системный алерт)
-        ("email", "not-an-email-format", "alert", AddPage.EMAIL_ALERT_TEXT),
+        ("email", "userexample.com", "alert", AddPage.EMAIL_ALERT_TEXT),
+        ("email", "user@@example.com", "alert", AddPage.EMAIL_ALERT_TEXT),
+        ("email", "@domain.com", "alert", AddPage.EMAIL_ALERT_TEXT),
+        ("email", "user@", "alert", AddPage.EMAIL_ALERT_TEXT),
+        ("email", "пользователь@domain.com", "alert", AddPage.EMAIL_ALERT_TEXT),
+
         ("phone", "abc_phone", "alert", AddPage.PHONE_ALERT_TEXT),
+        ("phone", "12345", "alert", AddPage.PHONE_ALERT_TEXT),
+        ("phone", "1234567890123456", "alert", AddPage.PHONE_ALERT_TEXT),
+        ("phone", "12345-67890", "alert", AddPage.PHONE_ALERT_TEXT),
     ],
 )
 def test_add_contact_negative_validation(
