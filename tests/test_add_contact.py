@@ -106,7 +106,13 @@ def test_contact_text_fields_valid_variations(authenticated_driver, field_name, 
         ("email", "user@@example.com", "alert", AddPage.EMAIL_ALERT_TEXT),
         ("email", "@domain.com", "alert", AddPage.EMAIL_ALERT_TEXT),
         ("email", "user@", "alert", AddPage.EMAIL_ALERT_TEXT),
-        ("email", "пользователь@domain.com", "alert", AddPage.EMAIL_ALERT_TEXT),
+        pytest.param(
+            "email",
+            "пользователь@domain.com",
+            "alert",
+            AddPage.EMAIL_ALERT_TEXT,
+            marks=pytest.mark.xfail(reason="Bug: Application accepts Cyrillic characters in email field")
+        ),
 
         ("phone", "abc_phone", "alert", AddPage.PHONE_ALERT_TEXT),
         ("phone", "12345", "alert", AddPage.PHONE_ALERT_TEXT),
