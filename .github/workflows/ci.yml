@@ -22,9 +22,6 @@ jobs:
         python-version: '3.10'
         cache: 'pip'
 
-    # 3. Устанавливаем Google Chrome (нужен для запуска браузера в headless-режиме)
-    - name: Set up Chrome
-      uses: browser-actions/setup-chrome@latest
 
     # 4. Устанавливаем зависимости из requirements.txt
     - name: Install dependencies

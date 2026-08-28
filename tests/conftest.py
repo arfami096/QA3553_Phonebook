@@ -47,6 +47,7 @@ def driver(request):
         browser.quit()
     except Exception:
         pass
+
 @pytest.fixture
 def authenticated_driver(driver):
     """Фикстура, которая автоматически логинит пользователя перед тестом."""
