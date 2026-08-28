@@ -21,6 +21,13 @@ def pytest_addoption(parser):
     )
 
 
+import pytest
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+
 @pytest.fixture
 def driver(request):
     options = Options()
@@ -36,11 +43,7 @@ def driver(request):
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--disable-gpu")
 
-        # Если мы на CI (GitHub Actions), экшен setup-chrome обычно кладет бинарник в стандартный путь
-        # или прописывает его в PATH. Но на всякий случай для ubuntu проверим стандартный путь:
-        if os.path.exists("/opt/google/chrome/chrome"):
-            options.binary_location = "/opt/google/chrome/chrome"
-
+    # Инициализация драйвера через менеджер
     service = Service(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=service, options=options)
 
