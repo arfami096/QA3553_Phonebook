@@ -9,7 +9,7 @@ from config import VALID_EMAIL, VALID_PASSWORD
 from pages.login_page import LoginPage
 from pages.registration_page import RegistrationPage
 from utils.api_client import ApiClient
-from utils.data_generator import DataGenerator
+
 
 
 def pytest_addoption(parser):

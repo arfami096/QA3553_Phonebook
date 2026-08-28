@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -14,9 +16,18 @@ class AddPage(BasePage):
     ADDRESS_INPUT = (By.CSS_SELECTOR, "input[placeholder='Address']")
     DESCRIPTION_INPUT = (By.CSS_SELECTOR, "input[placeholder='description']")
     SAVE_BTN = (By.XPATH, "//button[b[text()='Save']]")
+    CONTACT_NAV_LINK = (By.CSS_SELECTOR, "[href='/contacts']")
+
+    PHONE_ALERT_TEXT = " Phone not valid: Phone number must contain only digits! And length min 10, max 15!"
+    EMAIL_ALERT_TEXT = "Email not valid: must be a well-formed email address"
 
     def open_contact_form(self):
         self.click(self.ADD_NAV_LINK)
+
+    def add_new_contact(self, contact):
+        self.open_contact_form()
+        self.fill_contact_form(contact)
+        self.submit_contact()
 
     def fill_name(self, name):
         self.fill(self.NAME_INPUT, name)
@@ -60,3 +71,18 @@ class AddPage(BasePage):
     def open_contact_details(self, phone):
         locator = (By.XPATH, f"//h3[text()='{phone}']/..")
         self.click(locator)
+
+    def is_add_button_active(self):
+        add_link = self.find(self.ADD_NAV_LINK)
+        return "active" in add_link.get_attribute("class")
+
+    def open_contact_list(self):
+        self.click(self.CONTACT_NAV_LINK)
+        WebDriverWait(self.driver, 5 ).until(EC.url_contains("/contacts"))
+        time.sleep(1)
+
+    def contact_cards_count(self, phone):
+        return len(
+            self.find_elements((By.XPATH, f"//h3[text()='{phone}']"))
+        )
+

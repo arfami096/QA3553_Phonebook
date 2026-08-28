@@ -4,6 +4,7 @@ from models.user import User
 
 fake = Faker()
 
+
 class DataGenerator:
     @staticmethod
     def generate_user() -> User:
@@ -13,12 +14,17 @@ class DataGenerator:
         )
 
     @staticmethod
-    def generate_contact() -> Contact:
-        return Contact(
-            name=fake.first_name(),
-            last_name=fake.last_name(),
-            phone=fake.msisdn()[:10],  # 10-значный номер
-            email=fake.email(),
-            address=fake.address().replace("\n", ", "),
-            description=fake.sentence()
-        )
+    def generate_contact(**overrides) -> Contact:
+
+        data = {
+            "name": fake.first_name(),
+            "last_name": fake.last_name(),
+            "phone": fake.unique.numerify("05########"),
+            "email": fake.unique.email(),
+            "address": fake.address(),
+            "description": fake.sentence()
+        }
+
+        data.update(overrides)
+
+        return Contact(**data)
