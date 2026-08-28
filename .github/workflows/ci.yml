@@ -26,5 +26,8 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run Pytest
+      env:
+        VALID_EMAIL: ${{ secrets.VALID_EMAIL }}
+        VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
       run: |
-        pytest --headless -v --tb=short
+        pytest --headless -v
