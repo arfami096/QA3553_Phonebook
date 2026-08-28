@@ -1,4 +1,5 @@
 import datetime
+import os
 import uuid
 
 import pytest
@@ -35,12 +36,15 @@ def driver(request):
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--disable-gpu")
 
-    # Используем webdriver-manager для автоматического сопоставления версий
+        # Если мы на CI (GitHub Actions), экшен setup-chrome обычно кладет бинарник в стандартный путь
+        # или прописывает его в PATH. Но на всякий случай для ubuntu проверим стандартный путь:
+        if os.path.exists("/opt/google/chrome/chrome"):
+            options.binary_location = "/opt/google/chrome/chrome"
+
     service = Service(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=service, options=options)
 
     browser.set_page_load_timeout(10)
-
     yield browser
 
     try:
