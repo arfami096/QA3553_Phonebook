@@ -29,6 +29,9 @@ def test_login_empty_password(login_page):
     login_page.fill_email(VALID_EMAIL)
     login_page.submit_login()
 
+    # Закрываем появившийся алерт
+    login_page.get_error_message()
+
     assert not login_page.is_logged(), "Ошибка: система пустила пользователя с пустым паролем!"
 
 
@@ -54,6 +57,7 @@ def test_login_with_invalid_email(login_page):
     login_page.fill_login_form(invalid_email, VALID_PASSWORD)
 
     login_page.submit_login()
+    login_page.get_error_message()
 
     assert not login_page.is_logged(), "Ошибка: система пустила пользователя с несуществующим email!"
 
@@ -64,6 +68,7 @@ def test_login_with_invalid_password(login_page):
     login_page.fill_login_form(VALID_EMAIL, wrong_password)
 
     login_page.submit_login()
+    login_page.get_error_message()
 
     assert not login_page.is_logged(), "Ошибка: пользователь вошел в систему с неверным паролем!"
 
