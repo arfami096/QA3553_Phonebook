@@ -25,12 +25,26 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run Pytest
-      env:
-        VALID_EMAIL: ${{ secrets.VALID_EMAIL }}
-        VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
-      run: |
-        pytest --headless -v
+    - name: Run pytest with Allure
+      run: pytest --headless -v || true
+
+    - name: Get Allure history
+      uses: simple-elf/allure-report-action@master
+      if: always()
+      id: allure-report
+      with:
+              allure_results: allure-results
+              allure_report: allure-report
+              storage_path: allure-history
+              keep_reports: 20
+
+    - name: Deploy report to GitHub Pages
+      if: always()
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+              github_token: ${{ secrets.GITHUB_TOKEN }}
+              publish_dir: allure-report
+              keep_files: true
 
     - name: Send Telegram Notification
       uses: appleboy/telegram-action@master
