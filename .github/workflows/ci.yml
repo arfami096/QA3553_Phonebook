@@ -26,7 +26,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run pytest with Allure
-      run: pytest --headless -v || true
+      run: pytest --headless -v
 
     - name: Get Allure history
       uses: simple-elf/allure-report-action@master
