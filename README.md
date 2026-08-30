@@ -14,8 +14,10 @@ An automated UI testing framework for the "Phonebook" web application. The proje
 ## 📂 Project Structure
 * `pages/` — Page Object classes for interacting with UI elements.
 * `tests/` — Automated test suites (positive, negative scenarios, boundary values).
-* `utils/` — Helper utilities, test data generator, and API clients.
+* `models/` — Data models and structures for test entities.
+* `utils/` — Helper utilities (API client, data generator, logger, storage helpers).
 * `.github/workflows/` — CI/CD configuration for automated test runs on GitHub.
+* `pytest.ini` — Configuration file for Pytest settings and custom markers.
 
 ## 🚀 How to Run Tests Locally
 
