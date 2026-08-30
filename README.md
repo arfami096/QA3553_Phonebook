@@ -1,24 +1,32 @@
 # 📞 Automated UI Testing Framework (Phonebook App)
 
-[![UI Tests CI](https://github.com/arfami096/QA3553_Phonebook/actions/workflows/ci.yml/badge.svg)](https://github.com/ВАШ_ЛОГИН/ИМЯ_РЕПОЗИТОРИЯ/actions/workflows/ci.yml)
+[![UI Tests CI](https://github.com/arfami096/QA3553_Phonebook/actions/workflows/ci.yml/badge.svg)](https://github.com/arfami096/QA3553_Phonebook/actions/workflows/ci.yml)
 
-Автоматизированный фреймворк для тестирования веб-приложения (UI) «Phonebook». Проект покрывает полный спектр требований: от позитивных сценариев и работы с обязательными полями до негативной валидации (алерты, ограничения по длине, символам) и проверки уникальности записей.
+An automated UI testing framework for the "Phonebook" web application. The project covers a full spectrum of requirements: from positive scenarios and handling mandatory fields to negative validation (alerts, length and character constraints) and record uniqueness checks.
 
-## 🛠 Стек технологий
+## 🛠 Tech Stack
 * **Language:** Python
 * **Test Runner:** Pytest
 * **Automation Tool:** Selenium WebDriver
 * **Architecture:** Page Object Model (POM)
 * **CI/CD:** GitHub Actions (Headless Chrome)
 
-## 📂 Структура проекта
-* `pages/` — Классы страниц (Page Objects) для взаимодействия с элементами интерфейса.
-* `tests/` — Наборы автотестов (позитивные, негативные сценарии, граничные значения).
-* `utils/` — Вспомогательные утилиты, генератор тестовых данных и API-клиенты.
-* `.github/workflows/` — Конфигурация CI/CD для автоматического запуска тестов на GitHub.
+## 📂 Project Structure
+* `pages/` — Page Object classes for interacting with UI elements.
+* `tests/` — Automated test suites (positive, negative scenarios, boundary values).
+* `utils/` — Helper utilities, test data generator, and API clients.
+* `.github/workflows/` — CI/CD configuration for automated test runs on GitHub.
 
-## 🚀 Как запустить тесты локально
+## 🚀 How to Run Tests Locally
 
-1. Клонируйте репозиторий:
+1. Clone the repository:
    ```bash
-   git clone [https://github.com/ВАШ_ЛОГИН/ИМЯ_РЕПОЗИТОРИЯ.git](https://github.com/ВАШ_ЛОГИН/ИМЯ_РЕПОЗИТОРИЯ.git)
+   git clone [https://github.com/arfami096/QA3553_Phonebook.git](https://github.com/arfami096/QA3553_Phonebook.git)
+
+Note on Configuration & Hidden Files:
+
+Certain configuration files or environment variable files (such as files containing credentials) may not be stored in the public repository for security reasons.
+
+Confidential files: If hidden configuration files are required for local test execution, you must request them separately from the project author.
+
+Viewing hidden files: If you are working on macOS and cannot see files starting with a dot (e.g., .env, .gitignore), press Cmd + Shift + . (dot) in Finder or configure your code editor to show hidden files.
