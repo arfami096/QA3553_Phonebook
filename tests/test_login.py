@@ -22,6 +22,7 @@ def test_login_empty_fields(login_page):
 def test_login_empty_email(login_page):
     login_page.fill_password(VALID_PASSWORD)
     login_page.submit_login()
+    login_page.get_error_message()
 
     assert not login_page.is_logged(), "Ошибка: система пустила пользователя с пустым email!"
 
