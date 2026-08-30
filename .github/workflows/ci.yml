@@ -26,6 +26,9 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run pytest with Allure
+      env:
+        VALID_EMAIL: ${{ secrets.VALID_EMAIL }}
+        VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
       run: pytest --headless -v
 
     - name: Get Allure history
@@ -45,7 +48,6 @@ jobs:
               github_token: ${{ secrets.GITHUB_TOKEN }}
               publish_dir: allure-report
               keep_files: true
-
 
     - name: Send Telegram Notification
       uses: appleboy/telegram-action@master
