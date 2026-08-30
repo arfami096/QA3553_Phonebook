@@ -81,5 +81,9 @@ def test_login_unregistered_user(login_page):
     login_page.fill_login_form(unregistered_email, random_password)
     login_page.submit_login()
 
+    # Обязательно считываем и закрываем появившийся alert с ошибкой
+    error_text = login_page.get_error_message()
+    assert "wrong email or password" in error_text.lower() or "401" in error_text
+
     # Проверяем, что система заблокировала вход
     assert not login_page.is_logged(), "Ошибка: незарегистрированный пользователь смог войти!"
