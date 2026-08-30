@@ -31,3 +31,18 @@ jobs:
         VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
       run: |
         pytest --headless -v
+
+    - name: Send Telegram Notification
+      uses: appleboy/telegram-action@master
+      if: always()
+      with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            🤖 Результаты CI/CD тестов для Phonebook:
+            
+            Репозиторий: ${{ github.repository }}
+            Ветка: ${{ github.ref_name }}
+            Статус запуска: ${{ job.status }}
+            
+            Ссылка на лог: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
