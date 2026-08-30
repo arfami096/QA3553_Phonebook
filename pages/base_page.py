@@ -42,7 +42,8 @@ class BasePage:
     def fill(self, locator, value):
         element = self.find(locator)
         element.clear()
-        element.send_keys(value)
+        if value is not None:
+            element.send_keys(str(value))
 
     def is_element_visible(self, locator) -> bool:
         try:
