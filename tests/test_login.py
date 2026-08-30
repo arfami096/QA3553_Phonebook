@@ -1,4 +1,4 @@
-import timegit
+import time
 from config import VALID_EMAIL, VALID_PASSWORD
 
 
