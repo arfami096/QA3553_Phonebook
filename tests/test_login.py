@@ -14,6 +14,7 @@ def test_successful_login(login_page):
 
 def test_login_empty_fields(login_page):
     login_page.submit_login()
+    login_page.get_error_message()
 
     # Проверяем, что вход не произошел
     assert not login_page.is_logged(), "Ошибка: система пустила пользователя с пустыми полями!"
