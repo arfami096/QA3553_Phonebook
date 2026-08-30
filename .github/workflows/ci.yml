@@ -46,6 +46,7 @@ jobs:
               publish_dir: allure-report
               keep_files: true
 
+
     - name: Send Telegram Notification
       uses: appleboy/telegram-action@master
       if: always()
