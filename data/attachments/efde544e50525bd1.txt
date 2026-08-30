@@ -1,0 +1,5 @@
+[API RESPONSE STATUS]: 403, BODY: 
+
+[DEBUG API] Status Code: 403
+[DEBUG API] Response text: 
+[DEBUG API] Email: test_user_c65971@example.com | Password: Password123!
