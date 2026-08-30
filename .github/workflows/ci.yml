@@ -52,18 +52,12 @@ jobs:
       with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-            - name: Send Telegram Notification
-                uses: appleboy/telegram-action@master
-                if: always()
-                with:
-                  to: ${{ secrets.TELEGRAM_CHAT_ID }}
-                  token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-                  message: |
-                    🤖 Результаты CI/CD тестов для Phonebook:
-                    
-                    Репозиторий: ${{ github.repository }}
-                    Ветка: ${{ github.ref_name }}
-                    Статус запуска: ${{ job.status }}
-                    
-                    🔗 Ссылка на Allure Отчет: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
-                    📋 Лог GitHub Actions: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          message: |
+            🤖 CI/CD Test Results for Phonebook:
+            
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Status: ${{ job.status }}
+            
+            🔗 Allure Report: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+            📋 GitHub Actions Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
