@@ -1,0 +1,1 @@
+{"uuid": "16f96605-94e4-414d-ab9e-107c554a5c49", "children": ["fa85cbdb-70f8-4402-a7bc-798c7c4d577a"], "befores": [{"name": "authenticated_driver", "status": "passed", "start": 1788116369992, "stop": 1788116371811}], "afters": [{"name": "authenticated_driver::<lambda>", "start": 1788116376388}], "start": 1788116369992, "stop": 1788116376388}

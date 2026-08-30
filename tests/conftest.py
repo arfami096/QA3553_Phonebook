@@ -170,3 +170,11 @@ def registered_user_via_api():
   ], f"API Registration failed: {response.status_code} - {response.text}"
 
   return user
+
+import pytest
+from pages.contacts_page import ContactsPage
+
+@pytest.fixture
+def contacts_page(driver):
+    page = ContactsPage(driver)
+    return page
