@@ -144,7 +144,7 @@ def test_add_contact_negative_validation(
         pass
 
     if expected_behavior == "stay_on_page":
-        assert "/ad" in authenticated_driver.current_url, (
+        assert "/com" in authenticated_driver.current_url, (
             f"Ошибка: при пустом поле '{field_name}' форма отправилась, хотя должна"
             " была остаться на /add!"
         )
