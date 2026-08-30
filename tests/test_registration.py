@@ -3,60 +3,39 @@ import pytest
 from config import VALID_EMAIL, VALID_PASSWORD
 
 
-
 def test_successful_registration(registration_page):
     unique_suffix = int(time.time())
     new_email = f"user_{unique_suffix}@gmail.com"
-    new_password = "Password123!"
 
-    registration_page.fill_registration_form(new_email, new_password)
-    registration_page.submit_registration()
+    registration_page.register(new_email, "Password123!")
 
-    assert registration_page.is_registered(), "Ошибка: регистрация не удалась!"
+    assert registration_page.is_logged(), "Ошибка: регистрация не удалась (кнопка Sign Out не найдена)!"
 
 
-def test_registration_empty_fields(registration_page):
-    registration_page.submit_registration()
+@pytest.mark.parametrize(
+    "email, password, description",
+    [
+        ("", "", "Оба поля пустые"),
+        ("", VALID_PASSWORD, "Пустой email"),
+        (f"user_{int(time.time())}@gmail.com", "", "Пустой пароль"),
+    ],
+)
+def test_registration_empty_fields(registration_page, email, password, description):
+    registration_page.register(email, password)
+
     try:
-        registration_page.get_error_message()
+        registration_page.get_alert_text_and_accept()
     except Exception:
         pass
 
-    assert not registration_page.is_registered(), "Ошибка: система зарегистрировала пользователя с пустыми полями!"
+    assert not registration_page.is_logged(), f"Ошибка: система зарегистрировала пользователя при условии: {description}!"
 
 
-def test_registration_empty_email(registration_page):
-    registration_page.fill_password(VALID_PASSWORD)
-    registration_page.submit_registration()
 
-    try:
-        registration_page.get_error_message()
-    except Exception:
-        pass
-
-    assert not registration_page.is_registered(), "Ошибка: регистрация прошла с пустым email!"
-
-
-def test_registration_empty_password(registration_page):
-    unique_suffix = int(time.time())
-    random_email = f"user_{unique_suffix}@gmail.com"
-
-    registration_page.fill_email(random_email)
-    registration_page.submit_registration()
-
-    try:
-        registration_page.get_error_message()
-    except Exception:
-        pass
-
-    assert not registration_page.is_registered(), "Ошибка: регистрация прошла с пустым паролем!"
-
-
-# T1 - T6: Требования к Email при регистрации
+# T1 - T6: ТРЕБОВАНИЯ К EMAIL
 @pytest.mark.parametrize(
     "email, description",
     [
-        ("", "T1-T2: Пустой email"),
         ("testgmail.com", "T3: Нет символа @"),
         ("test@@gmail.com", "T3: Больше одного @"),
         ("@gmail.com", "T4: Нет символов до @"),
@@ -65,44 +44,39 @@ def test_registration_empty_password(registration_page):
     ],
 )
 def test_registration_email_requirements(registration_page, email, description):
-    registration_page.fill_registration_form(email, VALID_PASSWORD)
-    registration_page.submit_registration()
+    registration_page.register(email, VALID_PASSWORD)
 
     try:
-        registration_page.get_error_message()
+        registration_page.get_alert_text_and_accept()
     except Exception:
         pass
 
-    assert not registration_page.is_registered(), f"Ошибка: система пропустила невалидный email ({description})"
+    assert not registration_page.is_logged(), f"Ошибка: система пропустила невалидный email ({description})"
 
 
-# T7 - T15: Требования к Password при регистрации
+# T7 - T15: ТРЕБОВАНИЯ К PASSWORD
 @pytest.mark.parametrize(
     "password, description",
     [
-        ("", "T7-T8: Пустой пароль"),
-        ("Password123", "T9: Нет спецсимвола [@, $, #, ^, &, *, !]"),
+        ("Password123", "T9: Нет спецсимвола"),
         ("Пароль123!", "T10: Кириллица в пароле"),
-        ("password123!", "T11: Нет заглавной буквы (UpperCase)"),
-        ("PASSWORD123!", "T12: Нет строчной буквы (LowCase)"),
+        ("password123!", "T11: Нет заглавной буквы"),
+        ("PASSWORD123!", "T12: Нет строчной буквы"),
         ("Password!", "T13: Нет цифры"),
         ("Pass1!", "T14: Меньше 8 символов"),
         ("P" * 16 + "1!", "T15: Больше 15 символов"),
     ],
 )
 def test_registration_password_requirements(registration_page, password, description):
-    unique_suffix = int(time.time())
-    unique_email = f"user_{unique_suffix}@gmail.com"
-
-    registration_page.fill_registration_form(unique_email, password)
-    registration_page.submit_registration()
+    unique_email = f"user_{int(time.time())}@gmail.com"
+    registration_page.register(unique_email, password)
 
     try:
-        registration_page.get_error_message()
+        registration_page.get_alert_text_and_accept()
     except Exception:
         pass
 
-    assert not registration_page.is_registered(), f"Ошибка: система пропустила невалидный пароль ({description})"
+    assert not registration_page.is_logged(), f"Ошибка: система пропустила невалидный пароль ({description})"
 
 # def test_registration_touched_empty_email(registration_page):
 #     # Кликаем в поле email, оставляем пустым, заполняем пароль и отправляем

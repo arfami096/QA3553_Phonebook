@@ -3,12 +3,14 @@ from config import VALID_EMAIL, VALID_PASSWORD
 
 
 def test_successful_login(login_page):
-    login_page.fill_login_form(VALID_EMAIL, VALID_PASSWORD)
-    login_page.submit_login()
+    login_page.login(VALID_EMAIL, VALID_PASSWORD)
     assert login_page.is_logged(), "Кнопка 'Sign Out' не найдена — авторизация не удалась"
 
+
 def test_login_empty_fields(login_page):
+    login_page.open_login_form()
     login_page.submit_login()
+
     try:
         login_page.get_error_message()
     except Exception:
@@ -18,8 +20,10 @@ def test_login_empty_fields(login_page):
 
 
 def test_login_empty_email(login_page):
+    login_page.open_login_form()
     login_page.fill_password(VALID_PASSWORD)
     login_page.submit_login()
+
     try:
         login_page.get_error_message()
     except Exception:
@@ -29,8 +33,10 @@ def test_login_empty_email(login_page):
 
 
 def test_login_empty_password(login_page):
+    login_page.open_login_form()
     login_page.fill_email(VALID_EMAIL)
     login_page.submit_login()
+
     try:
         login_page.get_error_message()
     except Exception:
@@ -41,8 +47,7 @@ def test_login_empty_password(login_page):
 
 def test_login_with_invalid_email_format(login_page):
     invalid_email = "wrong_email_format"
-    login_page.fill_login_form(invalid_email, VALID_PASSWORD)
-    login_page.submit_login()
+    login_page.login(invalid_email, VALID_PASSWORD)
 
     try:
         login_page.get_error_message()
@@ -53,27 +58,22 @@ def test_login_with_invalid_email_format(login_page):
 
 
 def test_login_with_wrong_password(login_page):
-    wrong_password = "WrongPassword999!"
-    login_page.fill_login_form(VALID_EMAIL, wrong_password)
-    login_page.submit_login()
+    login_page.login(VALID_EMAIL, "WrongPassword999!")
 
     error_text = login_page.get_error_message()
-    assert "fail" in error_text.lower() or "401" in error_text or "error" in error_text.lower()
+    assert "wrong email or password" in error_text.lower()
     assert not login_page.is_logged(), "Ошибка: пользователь вошел в систему с неверным паролем!"
 
 
 def test_login_unregistered_user(login_page):
     unique_suffix = int(time.time())
     unregistered_email = f"unregistered_user_{unique_suffix}@gmail.com"
-    random_password = "Password123!"
 
-    login_page.fill_login_form(unregistered_email, random_password)
-    login_page.submit_login()
+    login_page.login(unregistered_email, "Password123!")
 
     error_text = login_page.get_error_message()
-    assert "fail" in error_text.lower() or "401" in error_text or "error" in error_text.lower()
+    assert "wrong email or password" in error_text.lower()
     assert not login_page.is_logged(), "Ошибка: незарегистрированный пользователь смог войти!"
-
 
 # def test_login_touched_empty_email(login_page):
 #     # Кликаем в поле email, но ничего не вводим, затем кликаем в другое место (или сразу сабмитим)

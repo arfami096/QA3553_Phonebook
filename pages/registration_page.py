@@ -26,6 +26,7 @@ class RegistrationPage(BasePage):
         except TimeoutException:
             pass
 
+
     def fill_registration_form(self, email, password):
         # Заполнение email
         email_el = WebDriverWait(self.driver, 5).until(
@@ -87,3 +88,9 @@ class RegistrationPage(BasePage):
         WebDriverWait(self.driver, 5).until(
             EC.visibility_of_element_located(self.LOGIN_NAV_LINK)
         )
+
+    def register(self, email, password):
+        """Комплексный метод для регистрации нового пользователя"""
+        self.open_registration_form()
+        self.fill_registration_form(email, password)
+        self.submit_registration()
