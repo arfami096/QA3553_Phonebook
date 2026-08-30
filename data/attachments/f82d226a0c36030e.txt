@@ -1,0 +1,7 @@
+[API RESPONSE STATUS]: 200, BODY: {"token":"eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidGVzdF91c2VyX2VjN2VmYkBleGFtcGxlLmNvbSIsImlzcyI6IlJlZ3VsYWl0IiwiZXhwIjoxNzg4NzA0NDQ0LCJpYXQiOjE3ODgxMDQ0NDR9.VbV4IF2J5YADb1528oSXs0TmChkOK5iFpi2MviHxj28"}
+
+[DEBUG API] Status Code: 200
+[DEBUG API] Response text: {"token":"eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidGVzdF91c2VyX2VjN2VmYkBleGFtcGxlLmNvbSIsImlzcyI6IlJlZ3VsYWl0IiwiZXhwIjoxNzg4NzA0NDQ0LCJpYXQiOjE3ODgxMDQ0NDR9.VbV4IF2J5YADb1528oSXs0TmChkOK5iFpi2MviHxj28"}
+[DEBUG API] Email: test_user_ec7efb@example.com | Password: Password123!
+
+[UI DEBUG] Email: test_user_ec7efb@example.com | Password: Password123!
