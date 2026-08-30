@@ -59,7 +59,14 @@ class LoginPage(BasePage):
         self.click(self.REGISTRATION_BTN)
 
     def is_logged(self) -> bool:
-        return self.is_element_visible(self.SIGN_OUT_BTN)
+        try:
+            # Ждем появления кнопки Sign Out до 10 секунд принудительно
+            WebDriverWait(self.driver, 10).until(
+                EC.visibility_of_element_located(self.SIGN_OUT_BTN)
+            )
+            return True
+        except TimeoutException:
+            return False
 
     def get_error_message(self, timeout=3) -> str:
         """
