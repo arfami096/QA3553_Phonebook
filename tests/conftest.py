@@ -77,6 +77,9 @@ def registration_page(driver):
     return page
 
 
+import allure  # Убедитесь, что этот импорт есть в самом начале conftest.py
+
+
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     # Получаем результат выполнения теста
@@ -99,8 +102,17 @@ def pytest_runtest_makereport(item, call):
             screenshot_path = f"screenshots/{screenshot_name}"
 
             try:
+                # 1. Сохраняем локально на диск (как было)
                 driver.save_screenshot(screenshot_path)
-                print(f"\nСкриншот при падении сохранен: {screenshot_path}")
+
+                # 2. Прикрепляем скриншот в отчет Allure для облака
+                allure.attach(
+                    driver.get_screenshot_as_png(),
+                    name=f"Failure_{item.name}_{timestamp}",
+                    attachment_type=allure.attachment_type.PNG
+                )
+
+                print(f"\nСкриншот при падении сохранен и прикреплен к Allure: {screenshot_path}")
             except Exception as e:
                 print(f"\nНе удалось сделать скриншот: {e}")
 
