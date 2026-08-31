@@ -115,40 +115,28 @@ class TestAddContact:
     @pytest.mark.parametrize(
         "field_name, invalid_value, expected_behavior, expected_alert",
         [
-            pytest.param("name", "", "stay_on_page", None, marks=allure.severity(allure.severity_level.CRITICAL)),
-            pytest.param("last_name", "", "stay_on_page", None, marks=allure.severity(allure.severity_level.CRITICAL)),
-            pytest.param("phone", "", "stay_on_page", None, marks=allure.severity(allure.severity_level.CRITICAL)),
-            pytest.param("email", "", "stay_on_page", None, marks=allure.severity(allure.severity_level.CRITICAL)),
-            pytest.param("address", "", "stay_on_page", None, marks=allure.severity(allure.severity_level.CRITICAL)),
-            pytest.param("email", "userexample.com", "alert", AddPage.EMAIL_ALERT_TEXT,
-                         marks=allure.severity(allure.severity_level.CRITICAL)),
-            pytest.param("email", "user@@example.com", "alert", AddPage.EMAIL_ALERT_TEXT,
-                         marks=allure.severity(allure.severity_level.CRITICAL)),
-            pytest.param("email", "@domain.com", "alert", AddPage.EMAIL_ALERT_TEXT,
-                         marks=allure.severity(allure.severity_level.CRITICAL)),
-            pytest.param("email", "user@", "alert", AddPage.EMAIL_ALERT_TEXT,
-                         marks=allure.severity(allure.severity_level.CRITICAL)),
+            pytest.param("name", "", "stay_on_page", None),
+            pytest.param("last_name", "", "stay_on_page", None),
+            pytest.param("phone", "", "stay_on_page", None),
+            pytest.param("email", "", "stay_on_page", None),
+            pytest.param("address", "", "stay_on_page", None),
+            pytest.param("email", "userexample.com", "alert", AddPage.EMAIL_ALERT_TEXT),
+            pytest.param("email", "user@@example.com", "alert", AddPage.EMAIL_ALERT_TEXT),
+            pytest.param("email", "@domain.com", "alert", AddPage.EMAIL_ALERT_TEXT),
+            pytest.param("email", "user@", "alert", AddPage.EMAIL_ALERT_TEXT),
             pytest.param(
                 "email",
                 "пользователь@domain.com",
                 "alert",
                 AddPage.EMAIL_ALERT_TEXT,
-                marks=[
-                    pytest.mark.xfail(reason="Bug: Application accepts Cyrillic characters in email field"),
-                    allure.severity(allure.severity_level.CRITICAL)
-                ]
+                marks=pytest.mark.xfail(reason="Bug: Application accepts Cyrillic characters in email field")
             ),
-            pytest.param("phone", "abc_phone", "alert", AddPage.PHONE_ALERT_TEXT,
-                         marks=allure.severity(allure.severity_level.NORMAL)),
-            pytest.param("phone", "12345", "alert", AddPage.PHONE_ALERT_TEXT,
-                         marks=allure.severity(allure.severity_level.NORMAL)),
-            pytest.param("phone", "1234567890123456", "alert", AddPage.PHONE_ALERT_TEXT,
-                         marks=allure.severity(allure.severity_level.NORMAL)),
-            pytest.param("phone", "12345-67890", "alert", AddPage.PHONE_ALERT_TEXT,
-                         marks=allure.severity(allure.severity_level.NORMAL)),
+            pytest.param("phone", "abc_phone", "alert", AddPage.PHONE_ALERT_TEXT),
+            pytest.param("phone", "12345", "alert", AddPage.PHONE_ALERT_TEXT),
+            pytest.param("phone", "1234567890123456", "alert", AddPage.PHONE_ALERT_TEXT),
+            pytest.param("phone", "12345-67890", "alert", AddPage.PHONE_ALERT_TEXT),
         ],
     )
-
     def test_add_contact_negative_validation(
             self,
             authenticated_driver,
@@ -157,7 +145,8 @@ class TestAddContact:
             expected_behavior,
             expected_alert,
     ):
-        # Убираем allure.dynamic.severity(severity_level), так как критичность уже зашита в marks выше
+        # Все негативные проверки теперь гарантированно имеют статус CRITICAL
+        allure.dynamic.severity(allure.severity_level.CRITICAL)
 
         add_contact_page = AddPage(authenticated_driver)
         overrides = {field_name: invalid_value}
@@ -190,7 +179,7 @@ class TestAddContact:
 
     @allure.story("Duplicate Control")
     @allure.title("Prevent creating contact with duplicate email")
-    @allure.severity(allure.severity_level.NORMAL)
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_add_contact_duplicate_email(self, authenticated_driver):
         add_page = AddPage(authenticated_driver)
         contact = DataGenerator.generate_contact()
@@ -213,7 +202,7 @@ class TestAddContact:
 
     @allure.story("Duplicate Control")
     @allure.title("Prevent creating contact with duplicate phone number")
-    @allure.severity(allure.severity_level.NORMAL)
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_add_contact_duplicate_phone(self, authenticated_driver):
         add_page = AddPage(authenticated_driver)
         first_contact = DataGenerator.generate_contact()

@@ -1,1 +1,0 @@
-{"uuid": "5861dbc0-3760-4dca-9082-88677438bca1", "befores": [{"name": "invalid_phone", "status": "passed", "start": 1788115099650, "stop": 1788115099650}], "afters": [{"name": "invalid_phone::<lambda>", "start": 1788115100737}], "start": 1788115099650, "stop": 1788115100737}
