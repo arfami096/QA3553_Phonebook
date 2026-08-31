@@ -113,31 +113,42 @@ class TestAddContact:
     @allure.story("Field Validation")
     @allure.title("Negative validation for {field_name} with value '{invalid_value}'")
     @pytest.mark.parametrize(
-        "field_name, invalid_value, expected_behavior, expected_alert, severity_level",
+        "field_name, invalid_value, expected_behavior, expected_alert",
         [
-            ("name", "", "stay_on_page", None, "critical"),
-            ("last_name", "", "stay_on_page", None, "critical"),
-            ("phone", "", "stay_on_page", None, "critical"),
-            ("email", "", "stay_on_page", None, "critical"),
-            ("address", "", "stay_on_page", None, "critical"),
-            ("email", "userexample.com", "alert", AddPage.EMAIL_ALERT_TEXT, "critical"),
-            ("email", "user@@example.com", "alert", AddPage.EMAIL_ALERT_TEXT, "critical"),
-            ("email", "@domain.com", "alert", AddPage.EMAIL_ALERT_TEXT, "critical"),
-            ("email", "user@", "alert", AddPage.EMAIL_ALERT_TEXT, "critical"),
+            pytest.param("name", "", "stay_on_page", None, marks=allure.severity(allure.severity_level.CRITICAL)),
+            pytest.param("last_name", "", "stay_on_page", None, marks=allure.severity(allure.severity_level.CRITICAL)),
+            pytest.param("phone", "", "stay_on_page", None, marks=allure.severity(allure.severity_level.CRITICAL)),
+            pytest.param("email", "", "stay_on_page", None, marks=allure.severity(allure.severity_level.CRITICAL)),
+            pytest.param("address", "", "stay_on_page", None, marks=allure.severity(allure.severity_level.CRITICAL)),
+            pytest.param("email", "userexample.com", "alert", AddPage.EMAIL_ALERT_TEXT,
+                         marks=allure.severity(allure.severity_level.CRITICAL)),
+            pytest.param("email", "user@@example.com", "alert", AddPage.EMAIL_ALERT_TEXT,
+                         marks=allure.severity(allure.severity_level.CRITICAL)),
+            pytest.param("email", "@domain.com", "alert", AddPage.EMAIL_ALERT_TEXT,
+                         marks=allure.severity(allure.severity_level.CRITICAL)),
+            pytest.param("email", "user@", "alert", AddPage.EMAIL_ALERT_TEXT,
+                         marks=allure.severity(allure.severity_level.CRITICAL)),
             pytest.param(
                 "email",
                 "пользователь@domain.com",
                 "alert",
                 AddPage.EMAIL_ALERT_TEXT,
-                "critical",
-                marks=pytest.mark.xfail(reason="Bug: Application accepts Cyrillic characters in email field")
+                marks=[
+                    pytest.mark.xfail(reason="Bug: Application accepts Cyrillic characters in email field"),
+                    allure.severity(allure.severity_level.CRITICAL)
+                ]
             ),
-            ("phone", "abc_phone", "alert", AddPage.PHONE_ALERT_TEXT, "normal"),
-            ("phone", "12345", "alert", AddPage.PHONE_ALERT_TEXT, "normal"),
-            ("phone", "1234567890123456", "alert", AddPage.PHONE_ALERT_TEXT, "normal"),
-            ("phone", "12345-67890", "alert", AddPage.PHONE_ALERT_TEXT, "normal"),
+            pytest.param("phone", "abc_phone", "alert", AddPage.PHONE_ALERT_TEXT,
+                         marks=allure.severity(allure.severity_level.NORMAL)),
+            pytest.param("phone", "12345", "alert", AddPage.PHONE_ALERT_TEXT,
+                         marks=allure.severity(allure.severity_level.NORMAL)),
+            pytest.param("phone", "1234567890123456", "alert", AddPage.PHONE_ALERT_TEXT,
+                         marks=allure.severity(allure.severity_level.NORMAL)),
+            pytest.param("phone", "12345-67890", "alert", AddPage.PHONE_ALERT_TEXT,
+                         marks=allure.severity(allure.severity_level.NORMAL)),
         ],
     )
+
     def test_add_contact_negative_validation(
             self,
             authenticated_driver,
@@ -145,10 +156,8 @@ class TestAddContact:
             invalid_value,
             expected_behavior,
             expected_alert,
-            severity_level,
     ):
-        # Динамически проставляем severity для каждого конкретного кейса в параметризации
-        allure.dynamic.severity(severity_level)
+        # Убираем allure.dynamic.severity(severity_level), так как критичность уже зашита в marks выше
 
         add_contact_page = AddPage(authenticated_driver)
         overrides = {field_name: invalid_value}
@@ -178,6 +187,7 @@ class TestAddContact:
                 assert expected_alert in alert_text, (
                     f"Ожидался алерт с текстом '{expected_alert}', но получено: '{alert_text}'"
                 )
+
     @allure.story("Duplicate Control")
     @allure.title("Prevent creating contact with duplicate email")
     @allure.severity(allure.severity_level.NORMAL)
