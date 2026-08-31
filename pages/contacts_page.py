@@ -10,12 +10,12 @@ class ContactsPage(BasePage):
     REMOVE_BTN = (By.XPATH, "//button[text()='Remove']")
     SAVE_BTN = (By.XPATH, "//button[text()='Save']")
 
-    NAME_INPUT = (By.CSS_SELECTOR, "input:nth-of-type(1)")
-    LAST_NAME_INPUT = (By.CSS_SELECTOR, "input:nth-of-type(2)")
-    EMAIL_INPUT = (By.CSS_SELECTOR, "input:nth-of-type(3)")
-    PHONE_INPUT = (By.CSS_SELECTOR, "input:nth-of-type(4)")
-    ADDRESS_INPUT = (By.CSS_SELECTOR, "input:nth-of-type(5)")
-    DESCRIPTION_INPUT = (By.CSS_SELECTOR, "input:nth-of-type(6)")
+    NAME_INPUT = (By.CSS_SELECTOR, "[placeholder='Name']")
+    LAST_NAME_INPUT = (By.CSS_SELECTOR, "[placeholder='Last Name']")
+    EMAIL_INPUT = (By.CSS_SELECTOR, "[placeholder='Phone']")
+    PHONE_INPUT = (By.CSS_SELECTOR, "[placeholder='email']")
+    ADDRESS_INPUT = (By.CSS_SELECTOR, "[placeholder='Address']")
+    DESCRIPTION_INPUT = (By.CSS_SELECTOR, "[placeholder='desc']")
 
     def select_contact_by_text(self, contact_text: str):
         dynamic_locator = (By.XPATH, f"//*[contains(text(), '{contact_text}')]")

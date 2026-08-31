@@ -1,17 +1,9 @@
 import datetime
-import os
-import uuid
-
-import pytest
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
 from config import VALID_EMAIL, VALID_PASSWORD
 from pages.login_page import LoginPage
 from pages.registration_page import RegistrationPage
 from utils.api_client import ApiClient
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 
 
 
