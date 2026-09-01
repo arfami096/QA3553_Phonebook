@@ -1,0 +1,5 @@
+[API RESPONSE STATUS]: 409, BODY: {"timestamp":"2026-09-01T08:32:44","status":409,"error":"Conflict","message":"User already exists","path":"/v1/user/registration/usernamepassword"}
+
+[DEBUG API] Status Code: 409
+[DEBUG API] Response text: {"timestamp":"2026-09-01T08:32:44","status":409,"error":"Conflict","message":"User already exists","path":"/v1/user/registration/usernamepassword"}
+[DEBUG API] Email: test_user_c74040@example.com | Password: Password123!
