@@ -220,3 +220,13 @@ __marimo__/
 .streamlit/secrets.toml
 
 .env
+
+# macOS specific files
+.DS_Store
+
+# Archives
+*.zip
+
+# Allure reports and results
+allure-results/
+allure-report/
