@@ -144,6 +144,12 @@ def registered_user_via_api():
   email = f"test_user_{unique_id}@example.com"
   password = "Password123!"
 
+  # «Знакомимся» с сайтом, чтобы сервер выдал куки/сессию
+  api.session.get(api.base_url)
+
+  # Отправляем запрос на регистрацию
+  response = api.register_user(email, password)
+
   response = api.register_user(email, password)
 
   user = SimpleNamespace(email=email, password=password)

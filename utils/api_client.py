@@ -19,12 +19,13 @@ class ApiClient:
     })
 
   def register_user(self, email, password):
-    """Быстрая регистрация пользователя через API"""
-    url = f"{self.base_url}/v1/user/registration/usernamepassword"
-    payload = {"username": email, "password": password}
-    # Используем чистый requests.post вместо self.session.post
-    response = requests.post(url, json=payload, headers=self.session.headers)
-    return response
+      """Быстрая регистрация пользователя через API"""
+      url = f"{self.base_url}/v1/user/registration/usernamepassword"
+      payload = {"username": email, "password": password}
+
+      # Возвращаем использование self.session, чтобы сохранялись куки и контекст сессии
+      response = self.session.post(url, json=payload)
+      return response
 
   # def register_user(self, email, password):
   #   """Быстрая регистрация пользователя через API"""

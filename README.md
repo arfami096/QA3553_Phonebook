@@ -1,25 +1,35 @@
-# 📞 Automated UI Testing Framework (Phonebook App)
+# 📞 Automated UI Testing Framework (Phonebook App)# 📞 Automated UI Testing Framework (Phonebook App)
 
 [![UI Tests CI](https://github.com/arfami096/QA3553_Phonebook/actions/workflows/ci.yml/badge.svg)](https://github.com/arfami096/QA3553_Phonebook/actions/workflows/ci.yml)
 
 An automated UI testing framework for the "Phonebook" web application. The project covers a full spectrum of requirements: from positive scenarios and handling mandatory fields to negative validation (alerts, length and character constraints) and record uniqueness checks.
 
-## 🛠 Tech Stack
+🛠 Tech Stack
 * **Language:** Python
 * **Test Runner:** Pytest
 * **Automation Tool:** Selenium WebDriver
 * **Architecture:** Page Object Model (POM)
+* **Reporting:** Allure Report
 * **CI/CD:** GitHub Actions (Headless Chrome)
 
-## 📂 Project Structure
+📂 Project Structure
 * `pages/` — Page Object classes for interacting with UI elements.
 * `tests/` — Automated test suites (positive, negative scenarios, boundary values).
 * `models/` — Data models and structures for test entities.
 * `utils/` — Helper utilities (API client, data generator, logger, storage helpers).
+* `assets/` — Static images and dashboards for documentation.
 * `.github/workflows/` — CI/CD configuration for automated test runs on GitHub.
 * `pytest.ini` — Configuration file for Pytest settings and custom markers.
 
-## 🚀 How to Run Tests Locally
+📊 Reports & Execution
+
+Allure Dashboard
+![Allure Dashboard](assets/allure_dashboard.png)
+
+Test Execution
+![Test Execution](assets/test_run.png)
+
+🚀 How to Run Tests Locally
 
 1. Clone the repository:
    ```bash
