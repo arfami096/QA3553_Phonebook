@@ -1,0 +1,5 @@
+[2026-09-06 09:13:00] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск теста: проверка блокировки дубликата email
+[2026-09-06 09:13:00] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Создаем базовый контакт с email: christopher05@example.net
+[2026-09-06 09:13:02] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Пробуем создать второй контакт с тем же email
+[2026-09-06 09:13:02] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Проверяем, что система заблокировала дубликат
+[2026-09-06 09:13:02] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Тест на дубликат email пройден

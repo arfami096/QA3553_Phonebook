@@ -1,0 +1,5 @@
+[2026-09-06 09:13:03] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск теста: проверка блокировки дубликата номера телефона
+[2026-09-06 09:13:03] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Создаем базовый контакт с телефоном: 0510553917
+[2026-09-06 09:13:05] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Пробуем создать второй контакт с тем же номером телефона
+[2026-09-06 09:13:05] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Проверяем отказ системы в создании дубликата телефона
+[2026-09-06 09:13:05] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Тест на дубликат телефона успешно пройден

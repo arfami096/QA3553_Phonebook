@@ -1,0 +1,4 @@
+[2026-09-06 09:12:21] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск параметризованного теста: проверка валидного значения 'St. John's, #5' для поля 'address'
+[2026-09-06 09:12:21] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Добавляем контакт с address = St. John's, #5
+[2026-09-06 09:12:22] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Проверяем успешное создание и редирект
+[2026-09-06 09:12:23] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Валидация значения прошла успешно

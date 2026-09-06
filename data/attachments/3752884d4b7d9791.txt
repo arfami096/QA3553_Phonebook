@@ -1,0 +1,4 @@
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:93 Запуск негативного теста: отправка полностью пустой формы
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:97 Открываем форму и пытаемся отправить без заполнения полей
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:105 Проверяем, что пользователь остался на странице /add
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:109 Тест успешно пройден: форма заблокирована

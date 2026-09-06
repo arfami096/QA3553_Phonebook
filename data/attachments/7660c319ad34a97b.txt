@@ -1,0 +1,4 @@
+[2026-09-06 09:11:54] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск теста: создание контакта с пустым описанием
+[2026-09-06 09:11:54] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Заполняем форму с пустым описанием и отправляем
+[2026-09-06 09:11:55] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Проверяем успешный редирект на список контактов
+[2026-09-06 09:11:56] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Тест успешно пройден
