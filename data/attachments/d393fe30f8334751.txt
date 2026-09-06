@@ -1,0 +1,5 @@
+[2026-09-06 09:59:56] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск теста: проверка блокировки дубликата номера телефона
+[2026-09-06 09:59:56] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Создаем базовый контакт с телефоном: 0584750381
+[2026-09-06 09:59:58] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Пробуем создать второй контакт с тем же номером телефона
+[2026-09-06 09:59:58] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Проверяем отказ системы в создании дубликата телефона
+[2026-09-06 09:59:58] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Тест на дубликат телефона успешно пройден

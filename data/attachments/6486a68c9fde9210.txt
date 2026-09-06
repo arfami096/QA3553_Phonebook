@@ -1,0 +1,4 @@
+[2026-09-06 09:59:15] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск параметризованного теста: проверка валидного значения 'Apt 4B' для поля 'address'
+[2026-09-06 09:59:15] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Добавляем контакт с address = Apt 4B
+[2026-09-06 09:59:16] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Проверяем успешное создание и редирект
+[2026-09-06 09:59:16] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Валидация значения прошла успешно
