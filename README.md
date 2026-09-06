@@ -1,4 +1,4 @@
-# 📞 Automated UI Testing Framework (Phonebook App)# 📞 Automated UI Testing Framework (Phonebook App)
+# 📞 Automated UI Testing Framework (Phonebook App)
 
 [![UI Tests CI](https://github.com/arfami096/QA3553_Phonebook/actions/workflows/ci.yml/badge.svg)](https://github.com/arfami096/QA3553_Phonebook/actions/workflows/ci.yml)
 
