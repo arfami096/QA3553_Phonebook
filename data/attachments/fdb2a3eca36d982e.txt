@@ -1,0 +1,4 @@
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:47 Запуск теста: создание контакта с пустым описанием
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:52 Заполняем форму с пустым описанием и отправляем
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:56 Проверяем успешный редирект на список контактов
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:61 Тест успешно пройден

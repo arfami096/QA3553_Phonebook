@@ -1,0 +1,4 @@
+[2026-09-06 08:43:39] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск параметризованного теста: проверка валидного значения 'Smith-Jr' для поля 'last_name'
+[2026-09-06 08:43:39] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Добавляем контакт с last_name = Smith-Jr
+[2026-09-06 08:43:40] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Проверяем успешное создание и редирект
+[2026-09-06 08:43:41] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Валидация значения прошла успешно

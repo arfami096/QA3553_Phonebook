@@ -1,0 +1,4 @@
+[2026-09-06 08:43:34] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск параметризованного теста: проверка валидного значения 'O'Connor' для поля 'name'
+[2026-09-06 08:43:34] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Добавляем контакт с name = O'Connor
+[2026-09-06 08:43:35] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Проверяем успешное создание и редирект
+[2026-09-06 08:43:36] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Валидация значения прошла успешно

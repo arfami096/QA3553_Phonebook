@@ -1,0 +1,4 @@
+[2026-09-06 08:44:21] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск негативного теста: поле 'phone' со значением '12345' (ожидается: alert)
+[2026-09-06 08:44:22] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Ожидаем появления браузерного алерта с ошибкой
+[2026-09-06 08:44:22] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Перехвачен текст алерта: ' Phone not valid: Phone number must contain only digits! And length min 10, max 15!'
+[2026-09-06 08:44:22] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Негативный тест успешно пройден

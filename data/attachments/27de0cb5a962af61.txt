@@ -1,0 +1,4 @@
+[2026-09-06 08:43:37] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск параметризованного теста: проверка валидного значения 'B' для поля 'last_name'
+[2026-09-06 08:43:37] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Добавляем контакт с last_name = B
+[2026-09-06 08:43:38] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Проверяем успешное создание и редирект
+[2026-09-06 08:43:38] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Валидация значения прошла успешно
