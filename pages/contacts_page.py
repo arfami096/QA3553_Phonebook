@@ -118,22 +118,21 @@ class ContactsPage(BasePage):
         except TimeoutException:
             return False
 
-    def wait_until_contact_disappears(self, phone: str) -> bool:
+    def wait_until_contact_disappears(self, phone: str, timeout: int = 5) -> bool:
         """Ждет исчезновения контакта со страницы.
 
-        Возвращает False, если контакт исчез (успех), и True, если он всё еще виден.
+        Возвращает True, если контакт успешно исчез, и False, если остался виден по
+        истечении таймаута.
         """
         locator = (
             By.XPATH,
             f"//*[contains(text(), '{phone}')] | //*[contains(@value, '{phone}')]",
         )
         try:
-            # Ждем до 5 секунд, пока элемент ИСЧЕЗНЕТ со страницы
-            WebDriverWait(self.driver, 5).until(
+            # Ждем до timeout секунд, пока элемент ИСЧЕЗНЕТ со страницы
+            WebDriverWait(self.driver, timeout).until(
                 EC.invisibility_of_element_located(locator)
             )
-            return False  # Элемент исчез — контакта нет (возвращаем False для assert not)
-        except Exception:
-            return (
-                True  # Элемент так и остался на странице (контакт присутствует)
-            )
+            return True  # Контакт исчез (Успех)
+        except TimeoutException:
+            return False  # Контакт НЕ исчез за отведенное время (Ошибка)
