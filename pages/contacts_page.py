@@ -12,8 +12,8 @@ class ContactsPage(BasePage):
 
     NAME_INPUT = (By.CSS_SELECTOR, "[placeholder='Name']")
     LAST_NAME_INPUT = (By.CSS_SELECTOR, "[placeholder='Last Name']")
-    EMAIL_INPUT = (By.CSS_SELECTOR, "[placeholder='Phone']")
-    PHONE_INPUT = (By.CSS_SELECTOR, "[placeholder='email']")
+    EMAIL_INPUT = (By.CSS_SELECTOR, "[placeholder='email']")
+    PHONE_INPUT = (By.CSS_SELECTOR, "[placeholder='Phone']")
     ADDRESS_INPUT = (By.CSS_SELECTOR, "[placeholder='Address']")
     DESCRIPTION_INPUT = (By.CSS_SELECTOR, "[placeholder='desc']")
 
@@ -102,3 +102,38 @@ class ContactsPage(BasePage):
     def select_contact_by_phone(self, phone: str):
         dynamic_locator = (By.XPATH, f"//*[contains(text(), '{phone}')]")
         self.click(dynamic_locator)
+
+    def get_card_text(self) -> str:
+        """Получает весь текстовый контент из карточки выбранного контакта."""
+        # Пример локатора для карточки (замени на свой, который используется в проекте)
+        card_element = self.driver.find_element(By.CSS_SELECTOR, ".contact-item-detailed_card__50dTS")
+        return card_element.text
+
+    def wait_until_card_text_contains(self, expected_text: str, timeout: int = 5) -> bool:
+        """Ждет, пока в тексте карточки появится новое актуальное значение."""
+        try:
+            return WebDriverWait(self.driver, timeout).until(
+                lambda driver: expected_text in self.get_card_text()
+            )
+        except TimeoutException:
+            return False
+
+    def wait_until_contact_disappears(self, phone: str) -> bool:
+        """Ждет исчезновения контакта со страницы.
+
+        Возвращает False, если контакт исчез (успех), и True, если он всё еще виден.
+        """
+        locator = (
+            By.XPATH,
+            f"//*[contains(text(), '{phone}')] | //*[contains(@value, '{phone}')]",
+        )
+        try:
+            # Ждем до 5 секунд, пока элемент ИСЧЕЗНЕТ со страницы
+            WebDriverWait(self.driver, 5).until(
+                EC.invisibility_of_element_located(locator)
+            )
+            return False  # Элемент исчез — контакта нет (возвращаем False для assert not)
+        except Exception:
+            return (
+                True  # Элемент так и остался на странице (контакт присутствует)
+            )
