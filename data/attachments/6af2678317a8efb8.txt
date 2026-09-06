@@ -1,0 +1,1 @@
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:21 Запуск теста: успешное создание контакта с валидными данными
