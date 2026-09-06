@@ -1,0 +1,5 @@
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:286 Запуск теста: проверка блокировки дубликата номера телефона
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:291 Создаем базовый контакт с телефоном: 0500444437
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:298 Пробуем создать второй контакт с тем же номером телефона
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:310 Проверяем отказ системы в создании дубликата телефона
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:318 Тест на дубликат телефона успешно пройден

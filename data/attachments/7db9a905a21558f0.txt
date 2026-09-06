@@ -1,0 +1,4 @@
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:69 Запуск теста: создание контакта с цифрами и спецсимволами в описании
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:78 Заполняем форму и отправляем контакт
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:82 Проверяем успешный редирект на список контактов
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:87 Тест успешно пройден

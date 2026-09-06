@@ -1,0 +1,5 @@
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:255 Запуск теста: проверка блокировки дубликата email
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:260 Создаем базовый контакт с email: johnmeyer@example.net
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:265 Пробуем создать второй контакт с тем же email
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:275 Проверяем, что система заблокировала дубликат
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:280 Тест на дубликат email пройден

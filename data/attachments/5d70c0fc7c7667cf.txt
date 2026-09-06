@@ -1,0 +1,3 @@
+[2026-09-06 07:56:42] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск негативного теста: поле 'name' со значением '' (ожидается: stay_on_page)
+[2026-09-06 07:56:43] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Проверяем, что форма заблокирована и осталась на /add
+[2026-09-06 07:56:43] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Негативный тест успешно пройден

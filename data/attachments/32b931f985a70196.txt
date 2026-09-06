@@ -1,0 +1,4 @@
+[2026-09-06 07:56:51] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск негативного теста: поле 'email' со значением 'userexample.com' (ожидается: alert)
+[2026-09-06 07:56:51] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Ожидаем появления браузерного алерта с ошибкой
+[2026-09-06 07:56:52] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Перехвачен текст алерта: 'Email not valid: must be a well-formed email address'
+[2026-09-06 07:56:52] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Негативный тест успешно пройден

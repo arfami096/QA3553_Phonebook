@@ -1,0 +1,4 @@
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:133 Запуск параметризованного теста: проверка валидного значения 'Apt 4B' для поля 'address'
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:142 Добавляем контакт с address = Apt 4B
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:146 Проверяем успешное создание и редирект
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:154 Валидация значения прошла успешно
