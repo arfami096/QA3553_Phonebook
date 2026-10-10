@@ -4,14 +4,13 @@ FROM python:3.10-slim
 # Установка рабочей директории внутри контейнера
 WORKDIR /app
 
-# Установка системных зависимостей, необходимых для работы браузеров и Chrome/Firefox
+# Установка системных зависимостей (удалили устаревший libgconf-2-4)
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
     gnupg \
     unzip \
     libxi6 \
-    libgconf-2-4 \
     libnss3 \
     libfontconfig1 \
     libxss1 \
