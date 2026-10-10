@@ -1,0 +1,2 @@
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:207 Запуск негативного теста: поле 'email' со значением 'пользователь@domain.com' (ожидается: alert)
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:238 Ожидаем появления браузерного алерта с ошибкой

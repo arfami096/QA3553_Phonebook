@@ -1,0 +1,3 @@
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:207 Запуск негативного теста: поле 'name' со значением '' (ожидается: stay_on_page)
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:228 Проверяем, что форма заблокирована и осталась на /add
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:249 Негативный тест успешно пройден

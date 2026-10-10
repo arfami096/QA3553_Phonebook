@@ -1,45 +1,24 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html lang="ru">
 <head>
-    <meta charset="utf-8">
-    <meta name="allure-report-uuid" content="a811c5c6-6449-4069-ac3c-064168922cd4">
-    <title>Allure Report</title>
-    <link rel="icon" href="assets/favicon-BDLHVmV7.ico">
-    <!-- allure-core-head:start -->
-    <!-- allure-core-head:end -->
+    <meta charset="UTF-8">
+    <title>Phonebook UI Test Reports</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 100px; background-color: #f4f4f9; }
+        h1 { color: #333; }
+        .container { margin-top: 30px; }
+        a { display: inline-block; margin: 10px 20px; padding: 15px 30px; font-size: 18px; color: white; background-color: #007bff; text-decoration: none; border-radius: 5px; transition: background 0.3s; }
+        a:hover { background-color: #0056b3; }
+        .firefox { background-color: #ff7139; }
+        .firefox:hover { background-color: #e0531c; }
+    </style>
 </head>
 <body>
-    <div id="alert"></div>
-    <div id="content">
-        <span class="spinner">
-            <span class="spinner__circle"></span>
-        </span>
+    <h1>📊 Phonebook UI Test Reports</h1>
+    <p>Выберите браузер для просмотра результатов тестирования:</p>
+    <div class="container">
+        <a href="chrome/">🌐 Chrome Report</a>
+        <a href="firefox/" class="firefox">🦊 Firefox Report</a>
     </div>
-    <div id="popup"></div>
-    <!-- allure-core-body:start -->
-    <script>
-        window.__allureCoreLoaded = new Promise(function (resolve, reject) {
-        window.__allureResolveCoreLoaded = resolve;
-        window.__allureRejectCoreLoaded = reject;
-    });
-    </script>
-    <script src="assets/index-TNctPo69.js"></script>
-    <script>
-        if (typeof window.__allureResolveCoreLoaded === "function") {
-            window.__allureResolveCoreLoaded([]);
-        }
-    </script>
-    <!-- allure-core-body:end -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVWC4GKEYS"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-FVWC4GKEYS', {
-          'allureVersion': '2.44.0',
-          'reportUuid': 'a811c5c6-6449-4069-ac3c-064168922cd4',
-          'single_file': false
-        });
-    </script>
 </body>
 </html>

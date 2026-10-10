@@ -1,0 +1,4 @@
+[2026-10-10 13:23:08] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск теста: создание контакта с цифрами и спецсимволами в описании
+[2026-10-10 13:23:08] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Заполняем форму и отправляем контакт
+[2026-10-10 13:23:08] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Проверяем успешный редирект на список контактов
+[2026-10-10 13:23:09] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Тест успешно пройден

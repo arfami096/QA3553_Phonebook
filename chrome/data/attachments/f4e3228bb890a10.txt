@@ -1,0 +1,2 @@
+[2026-10-10 13:23:26] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск негативного теста: поле 'email' со значением 'пользователь@domain.com' (ожидается: alert)
+[2026-10-10 13:23:27] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Ожидаем появления браузерного алерта с ошибкой

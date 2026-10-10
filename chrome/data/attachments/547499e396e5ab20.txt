@@ -1,0 +1,4 @@
+[2026-10-10 13:22:50] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск параметризованного теста: проверка валидного значения 'A' для поля 'name'
+[2026-10-10 13:22:50] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Добавляем контакт с name = A
+[2026-10-10 13:22:50] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Проверяем успешное создание и редирект
+[2026-10-10 13:22:51] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Валидация значения прошла успешно
