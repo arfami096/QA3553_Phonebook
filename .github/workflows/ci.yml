@@ -65,21 +65,22 @@ jobs:
           name: allure-results-firefox
           path: allure-results-firefox
 
-      # Устанавливаем Java для генератора Allure (требуется команде allure generate)
+      # Настраиваем Java (требуется для работы генератора Allure)
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install Allure Commandline
-        uses: simple-elf/allure-report-action@master
-        if: false # Нам нужен только CLI из этого экшена или сгенерируем через Node/apt, но проще через npm/allure
+      # Настраиваем Node.js для установки Allure CLI через npm
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-      # Установим allure через npm для гарантированной генерации отчетов
+      # Устанавливаем Allure CLI глобально через npm
       - name: Install Allure CLI
-        run: |
-          sudo apt-get update && sudo apt-get install -y allure
+        run: sudo npm install -g allure-commandline --save-dev
 
       # Генерируем отчет для Chrome
       - name: Generate Chrome Allure Report
@@ -89,7 +90,7 @@ jobs:
       - name: Generate Firefox Allure Report
         run: allure generate allure-results-firefox -o allure-report/firefox --clean
 
-      # Создаем красивую главную страницу-навигатор (index.html), чтобы выбирать браузер
+      # Создаем стартовую страницу-навигатор (index.html) для выбора браузера
       - name: Create Index Navigator Page
         run: |
           cat << 'EOF' > allure-report/index.html
