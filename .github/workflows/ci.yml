@@ -36,8 +36,10 @@ jobs:
           VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
         run: pytest --browser ${{ matrix.browser }} --headless -v --alluredir=allure-results-${{ matrix.browser }}
 
+      # Добавлен if: always(), чтобы артефакты выгружались ДАЖЕ при падении тестов
       - name: Upload individual browser Allure results
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: allure-results-${{ matrix.browser }}
           path: allure-results-${{ matrix.browser }}/
@@ -51,9 +53,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Скачиваем результаты Chrome
+      # Скачиваем результаты Chrome (если их не было из-за падения, создаем пустую папку)
       - name: Download Chrome Allure results
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
           name: allure-results-chrome
           path: allure-results-chrome
@@ -61,11 +64,18 @@ jobs:
       # Скачиваем результаты Firefox
       - name: Download Firefox Allure results
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
           name: allure-results-firefox
           path: allure-results-firefox
 
-      # Настраиваем Java (требуется для работы генератора Allure)
+      # Гарантируем наличие директорий для генератора
+      - name: Ensure allure results directories exist
+        run: |
+          mkdir -p allure-results-chrome
+          mkdir -p allure-results-firefox
+
+      # Настраиваем Java (требуется для генератора Allure)
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
