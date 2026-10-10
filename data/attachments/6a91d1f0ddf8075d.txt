@@ -1,0 +1,5 @@
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:21 Запуск теста: успешное создание контакта с валидными данными
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:24 Сгенерирован тестовый контакт: Renee Torres | 0558927556
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:30 Заполняем форму нового контакта и отправляем
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:34 Проверяем редирект пользователя на страницу списка контактов (/contacts)
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:41 Тест успешно пройден: редирект подтвержден

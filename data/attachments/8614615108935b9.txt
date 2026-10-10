@@ -1,0 +1,5 @@
+[2026-10-10 12:35:51] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Запуск теста: успешное создание контакта с валидными данными
+[2026-10-10 12:35:51] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Сгенерирован тестовый контакт: Renee Torres | 0558927556
+[2026-10-10 12:35:51] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Заполняем форму нового контакта и отправляем
+[2026-10-10 12:35:52] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Проверяем редирект пользователя на страницу списка контактов (/contacts)
+[2026-10-10 12:35:53] [INFO] [QA3553_Phonebook.tests.UI.test_add_contact]: Тест успешно пройден: редирект подтвержден

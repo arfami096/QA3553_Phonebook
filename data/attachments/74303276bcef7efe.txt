@@ -1,0 +1,4 @@
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:207 Запуск негативного теста: поле 'email' со значением '@domain.com' (ожидается: alert)
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:238 Ожидаем появления браузерного алерта с ошибкой
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:242 Перехвачен текст алерта: 'Email not valid: must be a well-formed email address'
+INFO     QA3553_Phonebook.tests.UI.test_add_contact:test_add_contact.py:249 Негативный тест успешно пройден
