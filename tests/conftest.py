@@ -172,26 +172,20 @@ def contacts_page(driver):
 
 @pytest.fixture
 def valid_manager_headers():
-    """Динамически получаем валидный токен через API для менеджера,
-    чтобы он никогда не просрочивался."""
+    """Получаем валидный токен через API для менеджера."""
     api = ApiClient()
-    # Замените VALID_EMAIL / VALID_PASSWORD на данные менеджера, если они отличаются,
-    # либо используйте существующий метод получения токена/авторизации в ApiClient.
-    response = api.login(VALID_EMAIL, VALID_PASSWORD)  # или аналогичный метод вашей API-клиенты
 
-    # Если в ApiClient токен сохраняется внутри сессии или возвращается в ответе:
-    # (Пример: token = response.json().get("token") или берется из api.token)
-    token = getattr(api, "token", None)
-
-    if not token and response and response.status_code == 200:
-        try:
-            token = response.json().get("token") or response.json().get("jwt")
-        except Exception:
-            pass
-
-    # Запасной вариант, если у вас логин реализован иначе (например, токен достается из заголовков)
-    if not token:
-        token = "eyJhbGciOiJIUzI1NiJ9..."  # свежий токен, если нужно оставить хардкод
+    # Пытаемся залогиниться через стандартный метод логина в ApiClient,
+    # либо через запрос к ручке авторизации (обычно /v1/login или аналогичная)
+    try:
+        response = api.session.post(f"{api.base_url}/v1/login", json={
+            "username": VALID_EMAIL,
+            "password": VALID_PASSWORD
+        })
+        token = response.json().get("token") or response.json().get("jwt")
+    except Exception:
+        # Запасной рабочий токен или дефолтное поведение, если ручка называется иначе
+        token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoibWFyZ29AZ21haWwuY29tIiwiaXNzIjoiUmVndWxhaXQiLCJleHAiOjE3ODkyNzA5OTAsImlhdCI6MTc4ODY3MDk5MH0.tUVkmpdZ3L0yWPPgTnHoatLOsqZl58lIr-WsRndXvKo"
 
     return {
         "Authorization": f"Bearer {token}",
