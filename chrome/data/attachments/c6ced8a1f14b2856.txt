@@ -1,0 +1,5 @@
+INFO     app.tests.UI.test_add_contact:test_add_contact.py:255 Запуск теста: проверка блокировки дубликата email
+INFO     app.tests.UI.test_add_contact:test_add_contact.py:260 Создаем базовый контакт с email: tannerlauren@example.net
+INFO     app.tests.UI.test_add_contact:test_add_contact.py:265 Пробуем создать второй контакт с тем же email
+INFO     app.tests.UI.test_add_contact:test_add_contact.py:275 Проверяем, что система заблокировала дубликат
+INFO     app.tests.UI.test_add_contact:test_add_contact.py:280 Тест на дубликат email пройден

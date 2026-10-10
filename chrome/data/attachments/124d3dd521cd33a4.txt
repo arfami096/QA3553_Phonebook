@@ -1,0 +1,4 @@
+[2026-10-10 14:15:42] [INFO] [app.tests.UI.test_add_contact]: Запуск параметризованного теста: проверка валидного значения 'John2' для поля 'name'
+[2026-10-10 14:15:42] [INFO] [app.tests.UI.test_add_contact]: Добавляем контакт с name = John2
+[2026-10-10 14:15:43] [INFO] [app.tests.UI.test_add_contact]: Проверяем успешное создание и редирект
+[2026-10-10 14:15:43] [INFO] [app.tests.UI.test_add_contact]: Валидация значения прошла успешно

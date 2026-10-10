@@ -1,0 +1,4 @@
+[2026-10-10 14:17:01] [INFO] [app.tests.UI.test_add_contact]: Запуск негативного теста: поле 'email' со значением '@domain.com' (ожидается: alert)
+[2026-10-10 14:17:01] [INFO] [app.tests.UI.test_add_contact]: Ожидаем появления браузерного алерта с ошибкой
+[2026-10-10 14:17:02] [INFO] [app.tests.UI.test_add_contact]: Перехвачен текст алерта: 'Email not valid: must be a well-formed email address'
+[2026-10-10 14:17:02] [INFO] [app.tests.UI.test_add_contact]: Негативный тест успешно пройден

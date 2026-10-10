@@ -1,0 +1,4 @@
+[2026-10-10 14:16:30] [INFO] [app.tests.UI.test_add_contact]: Запуск негативного теста: поле 'phone' со значением '12345-67890' (ожидается: alert)
+[2026-10-10 14:16:31] [INFO] [app.tests.UI.test_add_contact]: Ожидаем появления браузерного алерта с ошибкой
+[2026-10-10 14:16:32] [INFO] [app.tests.UI.test_add_contact]: Перехвачен текст алерта: ' Phone not valid: Phone number must contain only digits! And length min 10, max 15!'
+[2026-10-10 14:16:32] [INFO] [app.tests.UI.test_add_contact]: Негативный тест успешно пройден
