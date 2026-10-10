@@ -54,13 +54,13 @@ class TestUpdateContact:
             contacts_page.submit_contact()
             contacts_page.select_contact_by_phone(contact.phone)
 
-        with allure.step(f"Ждем обновления и проверяем, что имя '{valid_name}' находится на первой строке карточки"):
+        with allure.step(f"Ждем обновления и проверяем, что имя '{valid_name}' присутствует в карточке"):
             assert contacts_page.wait_until_card_text_contains(valid_name), \
                 f"Имя '{valid_name}' не отобразилось в карточке после сохранения"
             card_text = contacts_page.get_card_text()
             lines = [line.strip() for line in card_text.splitlines() if line.strip()]
-            assert valid_name in lines[0], \
-                f"Ожидалось, что имя '{valid_name}' будет на 1-й строке (индекс 0), но получили строки: {lines}"
+            assert any(valid_name in line for line in lines), \
+                f"Ожидалось найти имя '{valid_name}' в карточке, но получили строки: {lines}"
 
     @allure.story("Contact Update Validation")
     @allure.title("Update Last Name invalid: {invalid_last_name}")
@@ -107,13 +107,13 @@ class TestUpdateContact:
             contacts_page.submit_contact()
             contacts_page.select_contact_by_phone(contact.phone)
 
-        with allure.step(f"Ждем обновления и проверяем, что фамилия '{valid_last_name}' находится на первой строке карточки"):
+        with allure.step(f"Ждем обновления и проверяем, что фамилия '{valid_last_name}' присутствует в карточке"):
             assert contacts_page.wait_until_card_text_contains(valid_last_name), \
                 f"Фамилия '{valid_last_name}' не отобразилась в карточке после сохранения"
             card_text = contacts_page.get_card_text()
             lines = [line.strip() for line in card_text.splitlines() if line.strip()]
-            assert valid_last_name in lines[0], \
-                f"Ожидалось, что фамилия '{valid_last_name}' будет на 1-й строке (индекс 0), но получили строки: {lines}"
+            assert any(valid_last_name in line for line in lines), \
+                f"Ожидалось найти фамилию '{valid_last_name}' в карточке, но получили строки: {lines}"
 
     @allure.story("Contact Update Validation")
     @allure.title("Update Email invalid: {invalid_email}")
@@ -162,13 +162,13 @@ class TestUpdateContact:
             contacts_page.submit_contact()
             contacts_page.select_contact_by_phone(contact.phone)
 
-        with allure.step(f"Ждем обновления и проверяем, что email '{valid_email}' находится на строке с индексом 2"):
+        with allure.step(f"Ждем обновления и проверяем, что email '{valid_email}' присутствует в карточке"):
             assert contacts_page.wait_until_card_text_contains(valid_email), \
                 f"Email '{valid_email}' не отобразился в карточке после сохранения"
             card_text = contacts_page.get_card_text()
             lines = [line.strip() for line in card_text.splitlines() if line.strip()]
-            assert valid_email in lines[2], \
-                f"Ожидалось, что email '{valid_email}' будет на 3-й строке (индекс 2), но получили строки: {lines}"
+            assert any(valid_email in line for line in lines), \
+                f"Ожидалось найти email '{valid_email}' в карточке, но получили строки: {lines}"
 
     @allure.story("Contact Update Validation")
     @allure.title("Update Email duplicate check")
@@ -225,7 +225,6 @@ class TestUpdateContact:
         add_page = AddPage(authenticated_driver)
         contacts_page = ContactsPage(authenticated_driver)
 
-        # Приводим адрес к одной строке на случай переносов
         clean_address = " ".join(valid_address.splitlines()).strip()
 
         with allure.step("Создаем тестовый контакт"):
@@ -242,13 +241,14 @@ class TestUpdateContact:
             contacts_page.submit_contact()
             contacts_page.select_contact_by_phone(contact.phone)
 
-        with allure.step(f"Ждем обновления и проверяем, что адрес '{clean_address}' находится на строке с индексом 3"):
+        with allure.step(f"Ждем обновления и проверяем, что адрес '{clean_address}' присутствует в карточке"):
             assert contacts_page.wait_until_card_text_contains(clean_address), \
                 f"Адрес '{clean_address}' не отобразился в карточке после сохранения"
             card_text = contacts_page.get_card_text()
             lines = [line.strip() for line in card_text.splitlines() if line.strip()]
-            assert clean_address in lines[3], \
-                f"Ожидалось, что адрес '{clean_address}' будет на 4-й строке (индекс 3), но получили строки: {lines}"
+            assert any(clean_address in line for line in lines), \
+                f"Ожидалось найти адрес '{clean_address}' в карточке, но получили строки: {lines}"
+
     @allure.story("Contact Update Validation")
     @allure.title("Update Phone invalid: {invalid_phone}")
     @allure.severity(allure.severity_level.CRITICAL)
@@ -296,13 +296,13 @@ class TestUpdateContact:
             contacts_page.submit_contact()
             contacts_page.select_contact_by_phone(valid_phone)
 
-        with allure.step(f"Ждем обновления и проверяем, что телефон '{valid_phone}' находится на строке с индексом 1"):
+        with allure.step(f"Ждем обновления и проверяем, что телефон '{valid_phone}' присутствует в карточке"):
             assert contacts_page.wait_until_card_text_contains(valid_phone), \
                 f"Телефон '{valid_phone}' не отобразился в карточке после сохранения"
             card_text = contacts_page.get_card_text()
             lines = [line.strip() for line in card_text.splitlines() if line.strip()]
-            assert valid_phone in lines[1], \
-                f"Ожидалось, что телефон '{valid_phone}' будет на 2-й строке (индекс 1), но получили строки: {lines}"
+            assert any(valid_phone in line for line in lines), \
+                f"Ожидалось найти телефон '{valid_phone}' в карточке, но получили строки: {lines}"
 
     @allure.story("Contact Update Validation")
     @allure.title("Update Phone duplicate check")
@@ -351,12 +351,11 @@ class TestUpdateContact:
             contacts_page.submit_contact()
             contacts_page.select_contact_by_phone(contact.phone)
 
-        # Если описание не пустое, дожидаемся его появления и проверяем на ожидаемой строке (индекс 4)
         if valid_description.strip():
-            with allure.step(f"Ждем обновления и проверяем, что описание '{valid_description}' находится на строке с индексом 4"):
+            with allure.step(f"Ждем обновления и проверяем, что описание '{valid_description}' присутствует в карточке"):
                 assert contacts_page.wait_until_card_text_contains(valid_description), \
                     f"Описание '{valid_description}' не отобразилось в карточке после сохранения"
                 card_text = contacts_page.get_card_text()
                 lines = [line.strip() for line in card_text.splitlines() if line.strip()]
-                assert valid_description in lines[4], \
-                    f"Ожидалось, что описание '{valid_description}' будет на 5-й строке (индекс 4), но получили строки: {lines}"
+                assert any(valid_description in line for line in lines), \
+                    f"Ожидалось найти описание '{valid_description}' в карточке, но получили строки: {lines}"

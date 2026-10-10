@@ -22,7 +22,7 @@ class TestAddContact:
     add_page = AddPage(authenticated_driver)
     contact = DataGenerator.generate_contact()
     logger.info(
-        f"Сгенерирован тестовый контакт: {contact.name} {contact.lastName} |"
+        f"Сгенерирован тестовый контакт: {contact.name} {contact.last_name} |"
         f" {contact.phone}"
     )
 

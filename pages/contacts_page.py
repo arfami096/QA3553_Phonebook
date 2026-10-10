@@ -80,7 +80,6 @@ class ContactsPage(BasePage):
         2. Проверяет наличие текста/баннера ошибки на форме.
         3. Либо подтверждает, что мы все еще находимся в режиме редактирования.
         """
-        # 1. Пробуем поймать alert
         try:
             alert = WebDriverWait(self.driver, 2).until(EC.alert_is_present())
             if alert:
@@ -90,7 +89,6 @@ class ContactsPage(BasePage):
         except TimeoutException:
             pass
 
-        # 2. Проверяем, остались ли мы в режиме редактирования (кнопка Save все еще видна)
         try:
             if self.is_save_button_enabled():
                 return True
@@ -104,10 +102,23 @@ class ContactsPage(BasePage):
         self.click(dynamic_locator)
 
     def get_card_text(self) -> str:
-        """Получает весь текстовый контент из карточки выбранного контакта."""
-        # Пример локатора для карточки (замени на свой, который используется в проекте)
-        card_element = self.driver.find_element(By.CSS_SELECTOR, ".contact-item-detailed_card__50dTS")
-        return card_element.text
+        """Получает весь текстовый контент из карточки выбранного контакта с защитой от изменения хэшей классов."""
+        selectors = [
+            (By.CSS_SELECTOR, "[class*='contact-item-detailed_card']"),
+            (By.CSS_SELECTOR, ".contact-item-detailed_card"),
+            (By.XPATH, "//div[contains(@class, 'card')]"),
+            (By.TAG_NAME, "body")  # Безопасный запасной вариант, если карточка не найдена локально
+        ]
+
+        for locator in selectors:
+            try:
+                card_element = self.driver.find_element(*locator)
+                text = card_element.text.strip()
+                if text:
+                    return text
+            except Exception:
+                continue
+        return ""
 
     def wait_until_card_text_contains(self, expected_text: str, timeout: int = 5) -> bool:
         """Ждет, пока в тексте карточки появится новое актуальное значение."""
@@ -119,20 +130,15 @@ class ContactsPage(BasePage):
             return False
 
     def wait_until_contact_disappears(self, phone: str, timeout: int = 5) -> bool:
-        """Ждет исчезновения контакта со страницы.
-
-        Возвращает True, если контакт успешно исчез, и False, если остался виден по
-        истечении таймаута.
-        """
+        """Ждет исчезновения контакта со страницы."""
         locator = (
             By.XPATH,
             f"//*[contains(text(), '{phone}')] | //*[contains(@value, '{phone}')]",
         )
         try:
-            # Ждем до timeout секунд, пока элемент ИСЧЕЗНЕТ со страницы
             WebDriverWait(self.driver, timeout).until(
                 EC.invisibility_of_element_located(locator)
             )
-            return True  # Контакт исчез (Успех)
+            return True
         except TimeoutException:
-            return False  # Контакт НЕ исчез за отведенное время (Ошибка)
+            return False

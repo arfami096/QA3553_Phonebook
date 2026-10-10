@@ -16,10 +16,11 @@ def pytest_addoption(parser):
     parser.addoption(
         "--headless", action="store_true", default=False, help="Run browser in headless mode"
     )
-    # 1. Добавляем опцию выбора браузера (по умолчанию chrome)
+    # Опция выбора браузера (по умолчанию chrome)
     parser.addoption(
         "--browser", action="store", default="chrome", help="Browser type: chrome, firefox, webkit/safari"
     )
+
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
@@ -33,7 +34,6 @@ from webdriver_manager.firefox import GeckoDriverManager
 
 @pytest.fixture
 def driver(request):
-    # 2. Получаем выбранный браузер из командной строки
     browser_name = request.config.getoption("--browser").lower()
     headless = request.config.getoption("--headless")
 
@@ -66,9 +66,8 @@ def driver(request):
         browser.set_window_size(1920, 1080)
 
     elif browser_name in ["webkit", "safari"]:
-        # Если вы используете чистый Selenium, для Safari на Linux обычно не запускают webkit.
-        # Если ваш проект написан на Playwright для Python, структура фикстуры будет выглядеть иначе.
-        raise pytest.Usageid(f"Браузер '{browser_name}' не поддерживается через стандартный Selenium WebDriver на этой оси.")
+        raise pytest.UsageError(
+            f"Браузер '{browser_name}' не поддерживается через стандартный Selenium WebDriver на этой оси.")
     else:
         raise pytest.UsageError(f"Неизвестный браузер: {browser_name}")
 
@@ -80,6 +79,7 @@ def driver(request):
     except Exception:
         pass
 
+
 @pytest.fixture
 def authenticated_driver(driver):
     """Фикстура, которая автоматически логинит пользователя перед тестом."""
@@ -89,18 +89,19 @@ def authenticated_driver(driver):
     login_page.submit_login()
     return driver
 
+
 @pytest.fixture
 def login_page(driver):
     page = LoginPage(driver)
     page.open_login_form()
     return page
 
+
 @pytest.fixture
 def registration_page(driver):
     page = RegistrationPage(driver)
     page.open_registration_form()
     return page
-
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
@@ -132,35 +133,36 @@ def pytest_runtest_makereport(item, call):
 
 @pytest.fixture
 def registered_user_via_api():
-  api = ApiClient()
+    api = ApiClient()
 
-  unique_id = uuid.uuid4().hex[:6]
-  email = f"test_user_{unique_id}@example.com"
-  password = "Password123!"
+    unique_id = uuid.uuid4().hex[:6]
+    email = f"test_user_{unique_id}@example.com"
+    password = "Password123!"
 
-  api.session.get(api.base_url)
-  response = api.register_user(email, password)
+    api.session.get(api.base_url)
+    response = api.register_user(email, password)
 
-  user = SimpleNamespace(email=email, password=password)
+    user = SimpleNamespace(email=email, password=password)
 
-  print(f"[API RESPONSE STATUS]: {response.status_code}, BODY: {response.text}")
-  print(f"\n[DEBUG API] Status Code: {response.status_code}", flush=True)
-  print(f"[DEBUG API] Response text: {response.text}", flush=True)
-  print(
-      f"[DEBUG API] Email: {user.email} | Password: {user.password}",
-      flush=True,
-  )
+    print(f"[API RESPONSE STATUS]: {response.status_code}, BODY: {response.text}")
+    print(f"\n[DEBUG API] Status Code: {response.status_code}", flush=True)
+    print(f"[DEBUG API] Response text: {response.text}", flush=True)
+    print(
+        f"[DEBUG API] Email: {user.email} | Password: {user.password}",
+        flush=True,
+    )
 
-  assert response.status_code in [
-      200,
-      201,
-  ], f"API Registration failed: {response.status_code}\n{response.text}"
+    assert response.status_code in [
+        200,
+        201,
+    ], f"API Registration failed: {response.status_code}\n{response.text}"
 
-  return user
+    return user
 
 
 import pytest
 from pages.contacts_page import ContactsPage
+
 
 @pytest.fixture
 def contacts_page(driver):
@@ -170,28 +172,48 @@ def contacts_page(driver):
 
 @pytest.fixture
 def valid_manager_headers():
-  token = ("eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoibWFyZ29AZ21haWwuY29tIiwiaXNzIjoiUmVndWxhaXQiLCJleHAiOjE3ODkyNzA5OTAsImlhdCI6MTc4ODY3MDk5MH0.tUVkmpdZ3L0yWPPgTnHoatLOsqZl58lIr-WsRndXvKo")
-  return {
-      "Authorization": f"Bearer {token}",
-      "Content-Type": "application/json",
-  }
+    """Динамически получаем валидный токен через API для менеджера,
+    чтобы он никогда не просрочивался."""
+    api = ApiClient()
+    # Замените VALID_EMAIL / VALID_PASSWORD на данные менеджера, если они отличаются,
+    # либо используйте существующий метод получения токена/авторизации в ApiClient.
+    response = api.login(VALID_EMAIL, VALID_PASSWORD)  # или аналогичный метод вашей API-клиенты
+
+    # Если в ApiClient токен сохраняется внутри сессии или возвращается в ответе:
+    # (Пример: token = response.json().get("token") или берется из api.token)
+    token = getattr(api, "token", None)
+
+    if not token and response and response.status_code == 200:
+        try:
+            token = response.json().get("token") or response.json().get("jwt")
+        except Exception:
+            pass
+
+    # Запасной вариант, если у вас логин реализован иначе (например, токен достается из заголовков)
+    if not token:
+        token = "eyJhbGciOiJIUzI1NiJ9..."  # свежий токен, если нужно оставить хардкод
+
+    return {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json",
+    }
 
 
 @pytest.fixture
 def invalid_manager_headers():
-  return {
-      "Authorization": "Bearer incorrect_token_manager_999",
-      "Content-Type": "application/json",
-  }
+    return {
+        "Authorization": "Bearer incorrect_token_manager_999",
+        "Content-Type": "application/json",
+    }
 
 
 @pytest.fixture
 def created_contact(authenticated_driver):
-  add_page = AddPage(authenticated_driver)
-  contacts_page = ContactsPage(authenticated_driver)
+    add_page = AddPage(authenticated_driver)
+    contacts_page = ContactsPage(authenticated_driver)
 
-  contact = DataGenerator.generate_contact()
-  add_page.add_new_contact(contact)
-  contacts_page.wait_until_card_text_contains(contact.phone)
+    contact = DataGenerator.generate_contact()
+    add_page.add_new_contact(contact)
+    contacts_page.wait_until_card_text_contains(contact.phone)
 
-  return contact
+    return contact
