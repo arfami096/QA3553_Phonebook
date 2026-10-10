@@ -16,31 +16,61 @@ def pytest_addoption(parser):
     parser.addoption(
         "--headless", action="store_true", default=False, help="Run browser in headless mode"
     )
+    # 1. Добавляем опцию выбора браузера (по умолчанию chrome)
+    parser.addoption(
+        "--browser", action="store", default="chrome", help="Browser type: chrome, firefox, webkit/safari"
+    )
 
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
+
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from webdriver_manager.firefox import GeckoDriverManager
 
 
 @pytest.fixture
 def driver(request):
-    options = Options()
-    options.add_argument("--start-maximized")
-    options.add_argument("--window-size=1920,1080")
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_experimental_option("useAutomationExtension", False)
+    # 2. Получаем выбранный браузер из командной строки
+    browser_name = request.config.getoption("--browser").lower()
+    headless = request.config.getoption("--headless")
 
-    if request.config.getoption("--headless"):
-        options.add_argument("--headless=new")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-gpu")
+    browser = None
 
-    # Инициализация драйвера через менеджер
-    service = Service(ChromeDriverManager().install())
-    browser = webdriver.Chrome(service=service, options=options)
+    if browser_name == "chrome":
+        options = ChromeOptions()
+        options.add_argument("--start-maximized")
+        options.add_argument("--window-size=1920,1080")
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option("useAutomationExtension", False)
+
+        if headless:
+            options.add_argument("--headless=new")
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--disable-gpu")
+
+        service = ChromeService(ChromeDriverManager().install())
+        browser = webdriver.Chrome(service=service, options=options)
+
+    elif browser_name in ["firefox", "mozilla"]:
+        options = FirefoxOptions()
+        if headless:
+            options.add_argument("-headless")
+
+        service = FirefoxService(GeckoDriverManager().install())
+        browser = webdriver.Firefox(service=service, options=options)
+        browser.set_window_size(1920, 1080)
+
+    elif browser_name in ["webkit", "safari"]:
+        # Если вы используете чистый Selenium, для Safari на Linux обычно не запускают webkit.
+        # Если ваш проект написан на Playwright для Python, структура фикстуры будет выглядеть иначе.
+        raise pytest.Usageid(f"Браузер '{browser_name}' не поддерживается через стандартный Selenium WebDriver на этой оси.")
+    else:
+        raise pytest.UsageError(f"Неизвестный браузер: {browser_name}")
 
     browser.set_page_load_timeout(10)
     yield browser
@@ -75,80 +105,40 @@ def registration_page(driver):
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
-    # Получаем результат выполнения теста
     outcome = yield
     report = outcome.get_result()
 
-    # Проверяем, что тест упал именно на этапе выполнения (call)
     if report.when == "call" and report.failed:
-        # Пытаемся достать фикстуру драйвера из теста
         driver = item.funcargs.get("driver") or item.funcargs.get(
             "authenticated_driver"
         )
 
         if driver:
-            # Генерируем уникальное имя файла с таймстампом
             timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
             screenshot_name = f"screenshot_{item.name}_{timestamp}.png"
-
-            # Путь, куда сохранится файл
             screenshot_path = f"screenshots/{screenshot_name}"
 
             try:
-                # 1. Сохраняем локально на диск (как было)
                 driver.save_screenshot(screenshot_path)
-
-                # 2. Прикрепляем скриншот в отчет Allure для облака
                 allure.attach(
                     driver.get_screenshot_as_png(),
                     name=f"Failure_{item.name}_{timestamp}",
                     attachment_type=allure.attachment_type.PNG
                 )
-
                 print(f"\nСкриншот при падении сохранен и прикреплен к Allure: {screenshot_path}")
             except Exception as e:
                 print(f"\nНе удалось сделать скриншот: {e}")
-
-# @pytest.fixture
-# def registered_user_via_api():
-#   api = ApiClient()
-#   user = DataGenerator.generate_user()
-#
-#   response = api.register_user(user.email, user.password)
-#   print(f"[API RESPONSE STATUS]: {response.status_code}, BODY: {response.text}")
-#
-#   # Добавили flush=True
-#   print(f"\n[DEBUG API] Status Code: {response.status_code}", flush=True)
-#   print(f"[DEBUG API] Response text: {response.text}", flush=True)
-#   print(
-#       f"[DEBUG API] Email: {user.email} | Password: {user.password}",
-#       flush=True,
-#   )
-#
-#   assert response.status_code in [
-#       200,
-#       201,
-#   ], f"API Registration failed: {response.status_code} - {response.text}"
-#
-#   return user
-
 
 
 @pytest.fixture
 def registered_user_via_api():
   api = ApiClient()
 
-  # Используем встроенный uuid для генерации уникального хвоста почты
   unique_id = uuid.uuid4().hex[:6]
   email = f"test_user_{unique_id}@example.com"
   password = "Password123!"
 
-  # «Знакомимся» с сайтом, чтобы сервер выдал куки/сессию
   api.session.get(api.base_url)
-
-  # Отправляем запрос на регистрацию
-  response = api.register_user(email, password)
-
   response = api.register_user(email, password)
 
   user = SimpleNamespace(email=email, password=password)
@@ -164,9 +154,10 @@ def registered_user_via_api():
   assert response.status_code in [
       200,
       201,
-  ], f"API Registration failed: {response.status_code} - {response.text}"
+  ], f"API Registration failed: {response.status_code}\n{response.text}"
 
   return user
+
 
 import pytest
 from pages.contacts_page import ContactsPage
@@ -177,10 +168,8 @@ def contacts_page(driver):
     return page
 
 
-
 @pytest.fixture
 def valid_manager_headers():
-  # Настоящий валидный токен (можно вынести в config или переменную окружения)
   token = ("eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoibWFyZ29AZ21haWwuY29tIiwiaXNzIjoiUmVndWxhaXQiLCJleHAiOjE3ODkyNzA5OTAsImlhdCI6MTc4ODY3MDk5MH0.tUVkmpdZ3L0yWPPgTnHoatLOsqZl58lIr-WsRndXvKo")
   return {
       "Authorization": f"Bearer {token}",
@@ -190,26 +179,19 @@ def valid_manager_headers():
 
 @pytest.fixture
 def invalid_manager_headers():
-  # Неверный токен, но тоже с префиксом Bearer, чтобы сервер дошел до валидации токена
   return {
       "Authorization": "Bearer incorrect_token_manager_999",
       "Content-Type": "application/json",
   }
 
+
 @pytest.fixture
 def created_contact(authenticated_driver):
-  """Фикстура для подготовки данных: создает уникальный контакт перед тестом
-
-  и гарантирует, что в UI есть с чем работать.
-  """
   add_page = AddPage(authenticated_driver)
   contacts_page = ContactsPage(authenticated_driver)
 
   contact = DataGenerator.generate_contact()
-
-  # Прекондишн: создаем контакт через UI (или через API для скорости)
   add_page.add_new_contact(contact)
   contacts_page.wait_until_card_text_contains(contact.phone)
 
-  # Возвращаем объект контакта, чтобы тест мог им воспользоваться
   return contact

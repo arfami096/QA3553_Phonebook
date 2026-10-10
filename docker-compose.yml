@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  ui-tests:
+    build: .
+    container_name: phonebook_ui_tests
+    # Передаем переменные окружения (можно подставить свои или использовать .env файл)
+    environment:
+      - VALID_EMAIL=${VALID_EMAIL}
+      - VALID_PASSWORD=${VALID_PASSWORD}
+    # Пробрасываем папки наружу, чтобы отчеты и скриншоты сохранялись на хост-машину
+    volumes:
+      - ./allure-results:/app/allure-results
+      - ./screenshots:/app/screenshots
+      - ./logs:/app/logs
+    # Команда для запуска тестов (по умолчанию в headless-режиме)
+    command: pytest --headless -v --alluredir=allure-results
