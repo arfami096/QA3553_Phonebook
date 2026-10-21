@@ -1,3 +1,4 @@
+import warnings
 from types import SimpleNamespace
 
 import pytest
@@ -22,8 +23,23 @@ def api_session_user(api):
     """
     user = build_user()
     response = api.register(user)
-    assert response.status_code == 200, f"Регистрация пользователя для тестов не удалась: {response.status_code} {response.text}"
-    return SimpleNamespace(user=user, token=response.json()["token"])
+    assert response.status_code == 200, (
+        f"Регистрация пользователя для тестов не удалась: {response.status_code} {response.text!r}\n"
+        f"Запрос ушёл на: {response.request.method} {response.url}\n"
+        f"Проверьте API_URL: там должен быть только хост, без пути"
+    )
+    session_user = SimpleNamespace(user=user, token=response.json()["token"])
+
+    yield session_user
+
+    # Контроль уборки: после всех тестов у этого пользователя контактов быть не должно.
+    # Если остались, значит, какой-то тест не убрал за собой: предупреждаем и чистим.
+    leftovers = api.get_contacts(session_user.token)
+    if leftovers.status_code == 200 and leftovers.json().get("contacts"):
+        contacts = leftovers.json()["contacts"]
+        names = ", ".join(f"{c.get('name')} {c.get('lastName')} <{c.get('email')}>" for c in contacts)
+        warnings.warn(f"После прогона остались контакты ({len(contacts)}): {names}", stacklevel=1)
+        api.clear_contacts(session_user.token)
 
 
 @pytest.fixture
@@ -38,8 +54,7 @@ def contacts_to_cleanup(api, token):
     emails: list[str] = []
     yield emails
     for email in emails:
-        contact = api.find_contact(email, token)
-        if contact:
+        for contact in api.find_contacts(email, token):  # дубликатов может быть несколько
             api.delete_contact(contact["id"], token)
 
 

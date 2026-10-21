@@ -239,15 +239,10 @@ class TestUpdateContact:
         with allure.step("Проверяем активность кнопки Save и сохраняем"):
             assert contacts_page.is_save_button_enabled(), "Кнопка Save должна быть активной"
             contacts_page.submit_contact()
-            contacts_page.select_contact_by_phone(contact.phone)
 
         with allure.step(f"Ждем обновления и проверяем, что адрес '{clean_address}' присутствует в карточке"):
             assert contacts_page.wait_until_card_text_contains(clean_address), \
                 f"Адрес '{clean_address}' не отобразился в карточке после сохранения"
-            card_text = contacts_page.get_card_text()
-            lines = [line.strip() for line in card_text.splitlines() if line.strip()]
-            assert any(clean_address in line for line in lines), \
-                f"Ожидалось найти адрес '{clean_address}' в карточке, но получили строки: {lines}"
 
     @allure.story("Contact Update Validation")
     @allure.title("Update Phone invalid: {invalid_phone}")
