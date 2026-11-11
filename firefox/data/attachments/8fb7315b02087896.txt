@@ -1,0 +1,4 @@
+[2026-11-11 10:51:16] [INFO] [app.tests.UI.test_add_contact]: Запуск теста: проверка блокировки дубликата email
+[2026-11-11 10:51:16] [INFO] [app.tests.UI.test_add_contact]: Создаем базовый контакт с email: bridget75@example.org
+[2026-11-11 10:51:17] [INFO] [app.tests.UI.test_add_contact]: Пробуем создать второй контакт с тем же email
+[2026-11-11 10:51:17] [INFO] [app.tests.UI.test_add_contact]: Проверяем, что система заблокировала дубликат

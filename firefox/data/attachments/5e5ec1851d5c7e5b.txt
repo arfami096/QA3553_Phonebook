@@ -1,0 +1,2 @@
+INFO     app.tests.UI.test_add_contact:test_add_contact.py:207 Запуск негативного теста: поле 'email' со значением '' (ожидается: stay_on_page)
+INFO     app.tests.UI.test_add_contact:test_add_contact.py:228 Проверяем, что форма заблокирована и осталась на /add
